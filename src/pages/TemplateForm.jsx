@@ -20,8 +20,6 @@ const TemplateForm = () => {
       setSelectedTemplateId(event.target.value);
     };
 
-    const navigate = useNavigate();
-
 
     const handleInputChange = (e) => {
         setFormData({
@@ -57,7 +55,15 @@ const TemplateForm = () => {
 
             if (response.ok) {
                 alert('Template details submitted successfully');
-                navigate('/QuestionForm');
+                setFormData({
+                    Version:'',
+                    Status:'',
+                    templatename:'',
+                    createdby:'',
+                    createdon:'',
+                    vendorid:''
+
+                });
 
                 // You can perform additional actions here, such as redirecting or showing a success message.
             } else {

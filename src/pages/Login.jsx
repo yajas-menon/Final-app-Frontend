@@ -48,7 +48,7 @@ const Login = () => {
             .then((response) => {
                 console.log(response);
                 localStorage.setItem("jwtToken", response.data.accessToken);
-                window.location.href = "/VendorTemplate";
+                window.location.href = "/AdminPage";
             })
             .catch((error) => {
                 throw error;

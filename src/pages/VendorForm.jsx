@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 const VendorForm = () => {
@@ -11,10 +10,6 @@ const VendorForm = () => {
         contactEmail: '',
         address: '',
     });
-
-
-    
-    const navigate = useNavigate();
 
 
     const handleInputChange = (e) => {
@@ -38,7 +33,14 @@ const VendorForm = () => {
 
             if (response.ok) {
                 alert('Vendor details submitted successfully');
-                navigate('/TemplateForm');
+                setFormData({
+                    vendorName: '',
+                    incorporationdate: '',
+                    onboardingdate: '',
+                    contactName: '',
+                    contactEmail: '',
+                    address: ''
+                });
                 
                 // You can perform additional actions here, such as redirecting or showing a success message.
             } else {

@@ -42,8 +42,8 @@ const SubmitForm =() =>{
     return (
         <div>
             <Navbar/>
-        <div className="container ">
-            <h1 className="title">Security Question Form</h1>
+        <div className="mx-10 my-10 ">
+            <h1 className="text-xl font-bold">Security Question Form</h1>
             <table>
                 <tbody >
                     {NewQuestions.map((question , index)=> (

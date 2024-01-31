@@ -47,8 +47,8 @@ const VendorList = () =>{
             <h1 class="text-3xl font-semibold mb-4 ml-10">Vendor</h1>
             <div class="flex justify-between items-center">
               <div class="flex w-20 max-w-lg ml-10">
-                <input type="text" placeholder="Search Product" class="border border-gray-300 rounded p-2 focus:outline-none flex-grow" />
-                <select name="" id="" class="border border-gray-300 rounded p-2 focus:outline-none ml-4">
+                <input type="text" placeholder="Search Product" class="border max-w-md border-gray-300 rounded p-2 focus:outline-none flex-grow" />
+                <select name="" id="" class="border border-gray-300 max-w-md rounded p-2 focus:outline-none ml-4">
                   <option class="" value="">Sort</option>
                 </select>
                 <div class="w-6 h-6 bg-blue-500 rounded"></div>
