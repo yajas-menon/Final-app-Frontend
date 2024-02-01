@@ -11,6 +11,16 @@ const VendorForm = () => {
         address: '',
     });
 
+    // const imagebase64 = async (file)=>{
+    //     const reader = new FileReader();
+    //    await  reader.readAsDataURL(file)
+    //     const data = new Promise((resolve,reject)=>{
+    //         reader.onload = () => resolve(reader.result)
+    //         reader.onerror = (err)=> reject(err)
+    //     })
+    //     return data 
+    // }
+
 
     const handleInputChange = (e) => {
         setFormData({
@@ -18,7 +28,11 @@ const VendorForm = () => {
             [e.target.id]: e.target.value,
         });
     };
-
+    // const handleImageUpload = async(e) =>{
+    //     const file = e.target.files[0];
+    //     const image = await imagebase64(file)
+    //     setFormData(image)
+    // }
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -39,7 +53,9 @@ const VendorForm = () => {
                     onboardingdate: '',
                     contactName: '',
                     contactEmail: '',
-                    address: ''
+                    address: '',
+                    logoImage:'',
+                     
                 });
                 
                 // You can perform additional actions here, such as redirecting or showing a success message.
@@ -148,6 +164,9 @@ const VendorForm = () => {
                                 required
                             />
                         </div>
+                        
+                        
+
 
                         <button type="submit" className="w-full bg-black text-white p-2 rounded-md">
                             Submit

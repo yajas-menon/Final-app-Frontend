@@ -10,6 +10,7 @@ import TemplateForm from './pages/TemplateForm';
 import VendorForm from './pages/VendorForm';
 import ReviewPage from './pages/ReviewPage';
 import AdminPage from './pages/AdminPage';
+import AnswersPage from './pages/AnswersPage';
 
 
 function App() {
@@ -28,6 +29,8 @@ function App() {
         <Route exact path="/SubmitForm/requestId/:requestId" element={<SubmitForm/>}></Route>
         <Route exact path='/ReviewPage' element={<ReviewPage/>}></Route>
         <Route exact path='/AdminPage' element={<AdminPage/>}></Route>
+        <Route exact path='/AnswersPage' element={<AnswersPage/>}></Route>
+        
 
       </Routes>
     </Router>
