@@ -6,124 +6,155 @@ import Navbar from "../components/Navbar";
 import { Navigate } from "react-router-dom";
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [mode, setMode] = useState("login");
-    const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  const [password, setPassword] = useState("");
+  const [mode, setMode] = useState("login");
+  const [name, setName] = useState("");
 
-    const switchMode = () => {
-        setMode(mode === "login" ? "register" : "login");
-    };
+  const switchMode = () => {
+    setMode(mode === "login" ? "register" : "login");
+  };
 
-    const submitForm = async (e) => {
-        e.preventDefault();
-        try {
-            if (mode === "register") {
-                await registerUser({ name, email, password });
-            } else {
-                await loginUser({ email, password });
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    };
+  const clearData = () => {
+    setRole("");
+    setPassword("");
+    setEmail("");
+    setName("");
+  };
 
-    const registerUser = () => {
-        console.log(name,email,password)
-        return axios
-            .post("http://localhost:8000/api/auth/register", { name, email, password })
-            .then((response) => {
-                console.log(response);
-                alert("Registration Successful!");
-                switchMode();
-            })
-            .catch((error) => {
-                throw error;
-            });
-    };
+  const registerUser = async () => {
+    return await axios
+      .post("http://localhost:8000/api/auth/register", {
+        name,
+        email,
+        password,
+        role,
+      })
+      .then((response) => {
+        console.log(response);
+        clearData();
+        alert("Registration Successful!");
+        switchMode();
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
 
-    const loginUser = () => {
-        return axios
-            .post("http://localhost:8000/api/auth/login", { email, password })
-            .then((response) => {
-                console.log(response);
-                localStorage.setItem("jwtToken", response.data.accessToken);
-                window.location.href = "/AdminPage";
-            })
-            .catch((error) => {
-                throw error;
-            });
-    };
+  const loginUser = async () => {
+    return await axios
+      .post("http://localhost:8000/api/auth/login", { email, password })
+      .then((response) => {
+        localStorage.setItem("jwtToken", response.data.accessToken);
+        sessionStorage.setItem("user_id", response.data.data._id);
+        sessionStorage.setItem("role", response.data.data.role);
+        sessionStorage.setItem(
+          "questions",
+          JSON.stringify(response.data.data?.questions)
+        );
+        if (response.data.data.role == "Admin")
+          window.location.href = "/AdminPage";
+        else window.location.href = "/dashboard";
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
 
-    return (
-        <div>
-            <Navbar />
-            <div className="flex items-center justify-center min-h-screen bg-gray-100">
-                
-                <div className="w-full max-w-md p-8 space-y-3 rounded-xl shadow-lg bg-white">
-                    <h1 className="text-center text-2xl font-bold mb-6">{mode}</h1>
-                    <form onSubmit={submitForm}>
-                        {mode === "register" && (
-                            <div className="mb-4">
-                                <label className="block mb-2" htmlFor="name">
-                                    Name:
-                                </label>
-                                <input
-                                    className="px-3 py-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                                    type="text"
-                                    placeholder="Enter your full name"
-                                    value={name}
-                                    name="name"
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                            </div>
-                        )}
-                        <div className="mb-4">
-                            <label className="block mb-2" htmlFor="email">
-                                Email:
-                            </label>
-                            <input
-                                className="px-3 py-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                                type="email"
-                                placeholder="Enter your email address"
-                                value={email}
-                                name="email"
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block mb-2" htmlFor="password">
-                                Password:
-                            </label>
-                            <input
-                                className="px-3 py-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                                type="password"
-                                placeholder="Enter your password"
-                                value={password}
-                                name="password"
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
-                        <div className="flex flex-col md:flex-row justify-between">
-
-                            <button onClick={mode == "login" ? loginUser : registerUser } 
-                                className="py-2 px-4 bg-indigo-600 hover:bg-indigo-700 transition duration-300 text-white rounded-md w-full mt-4"
-                                type="submit"
-                            >
-                                Submit
-                            </button>
-                        </div>
-                    </form>
-                    <p className="text-xs text-center text-gray-500">
-                        Dont Have an Account?{" "}
-                        <span onClick={switchMode} className="underline cursor-pointer">
-                            Sign Up
-                        </span>
-                    </p>
-                </div>
+  return (
+    <div>
+      <Navbar />
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="w-full max-w-md p-8 space-y-3 rounded-xl shadow-lg bg-white">
+          <h1 className="text-center text-2xl font-bold mb-6">{mode}</h1>
+          {mode === "register" && (
+            <div className="mb-4">
+              <label className="block mb-2" htmlFor="name">
+                Name:
+              </label>
+              <input
+                className="px-3 py-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                type="text"
+                placeholder="Enter your full name"
+                value={name}
+                name="name"
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
+          )}
+          <div className="mb-4">
+            <label className="block mb-2" htmlFor="email">
+              Email:
+            </label>
+            <input
+              className="px-3 py-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              type="email"
+              placeholder="Enter your email address"
+              value={email}
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2" htmlFor="password">
+              Password:
+            </label>
+            <input
+              className="px-3 py-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          {mode == "register" ? (
+            <div className="mb-4">
+              <label className="block mb-2" htmlFor="password">
+                Role
+              </label>
+              <select
+                className="px-3 py-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                type="text"
+                value={role}
+                name="role"
+                onChange={(e) => setRole(e.target.value)}
+              >
+                <option value="">Select Role</option>
+                <option value="User">User</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </div>
+          ) : null}
+          <div className="flex flex-col md:flex-row justify-between">
+            <button
+              onClick={mode == "login" ? loginUser : registerUser}
+              className="py-2 px-4 bg-indigo-600 hover:bg-indigo-700 transition duration-300 text-white rounded-md w-full mt-4"
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
+          {mode == "login" ? (
+            <p className="text-xs text-center text-gray-500">
+              Dont Have an Account?{" "}
+              <span onClick={switchMode} className="underline cursor-pointer">
+                Sign Up
+              </span>
+            </p>
+          ) : (
+            <p className="text-xs text-center text-gray-500">
+              Have an Account?{" "}
+              <span onClick={switchMode} className="underline cursor-pointer">
+                Log In
+              </span>
+            </p>
+          )}
         </div>
-    );
-}
+      </div>
+    </div>
+  );
+};
 
 export default Login;
