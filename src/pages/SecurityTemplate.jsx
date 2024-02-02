@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Navbar from "../components/Navbar";
+import Loader from "../components/Loader";
 
 export default function Template() {
   const [questions, setQuestions] = useState([]);
   // const [vendors, setVendors] = useState([]);
+  const [loading , setLoading] = useState(false);
+
+  useEffect(()=>{
+    setLoading(true);
+    setTimeout(()=>{
+        setLoading(false)
+    },2500)
+},[])
 
   useEffect(() => {
     async function fetchData() {
@@ -36,7 +45,8 @@ export default function Template() {
 
     <div className="transition-shadow">
       <Navbar />
-      <main className=" mx-10 my-10">
+      {loading ? (<Loader/>):(
+        <main className=" mx-10 my-10">
         <a className="text-blue-600 hover:underline flex items-center space-x-1" href="#">
           <ChevronLeftIcon className="w-5 h-5" />
           <a href="/VendorComplianceTemplate"><span>Back</span></a>
@@ -103,7 +113,7 @@ export default function Template() {
               <span className="text-lg font-medium">Questions</span>
               <ChevronUpIcon className="w-5 h-5" />
             </summary>
-            <div className="p-4 space-y-4">
+             <div className="p-4 space-y-4" >
               {questions.map((question, index) => {
                 return (
                   <div key={index} className=" border-t pt-4">
@@ -116,6 +126,8 @@ export default function Template() {
           </details>
         </div>
       </main>
+      )}
+      
     </div>
   );
 }

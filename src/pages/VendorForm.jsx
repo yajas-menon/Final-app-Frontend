@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import Loader from '../components/Loader';
 
 const VendorForm = () => {
     const [formData, setFormData] = useState({
@@ -10,6 +11,13 @@ const VendorForm = () => {
         contactEmail: '',
         address: '',
     });
+    const [loading , setLoading] = useState(false);
+    useEffect(()=>{
+        setLoading(true);
+        setTimeout(()=>{
+            setLoading(false)
+        },2500)
+    },[])
 
     // const imagebase64 = async (file)=>{
     //     const reader = new FileReader();
@@ -71,7 +79,8 @@ const VendorForm = () => {
     return (
         <div>
             <Navbar />
-            <div className="display-flex items-center mx-12 my-5">
+            {loading ? (<Loader/>):(
+                <div className="display-flex items-center mx-12 my-5">
                 <div className="border border-gray-300 p-4 rounded-md">
                     <h2 className="text-xl font-bold mb-2">Vendor Details</h2>
                     <p className="text-gray-600 mb-4">Please fill in the details of the vendor.</p>
@@ -174,6 +183,8 @@ const VendorForm = () => {
                     </form>
                 </div>
             </div>
+            )}
+            
         </div>
     );
 }
