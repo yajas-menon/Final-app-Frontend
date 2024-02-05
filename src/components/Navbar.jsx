@@ -26,7 +26,7 @@ const Navbar = () => {
           onClick={navigateToContacts}
           className="px-3 py-1 mr-10  text-gray-800 hover:border-black hover:text-grey transition duration-200 ease-in"
         >
-          {localStorage.getItem("jwtToken") ? (
+          {sessionStorage.getItem("jwtToken") ? (
             <>
               Logout{" "}
               <svg

@@ -138,7 +138,7 @@ const VendorComplianceTemplate = () => {
                     {item?.templatename}
                   </td>
                   <td className="px-4 py-2 text-left border-b whitespace-nowrap">
-                    {item?.createdBy}
+                    {item?.creator_name}
                   </td>
                   <td className="px-4 py-2 text-left border-b whitespace-nowrap">
                     {item?.createdon?.split("T")[0]}

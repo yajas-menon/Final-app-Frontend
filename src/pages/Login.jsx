@@ -56,7 +56,7 @@ const Login = () => {
     return await axios
       .post("http://localhost:8000/api/auth/login", { email, password })
       .then((response) => {
-        localStorage.setItem("jwtToken", response.data.accessToken);
+        sessionStorage.setItem("jwtToken", response.data.accessToken);
         sessionStorage.setItem("user_id", response.data.data._id);
         sessionStorage.setItem("role", response.data.data.role);
         sessionStorage.setItem(
@@ -68,7 +68,7 @@ const Login = () => {
         else window.location.href = "/dashboard";
       })
       .catch((error) => {
-        throw error;
+        console.log(error);
       });
   };
 

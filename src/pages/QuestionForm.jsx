@@ -16,9 +16,9 @@ function QuestionForm() {
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
-      setLoading(false)
-    }, 2500)
-  }, [])
+      setLoading(false);
+    }, 2500);
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -100,11 +100,14 @@ function QuestionForm() {
   return (
     <div>
       <Navbar />
-      {loading ? (<Loader />) : (
+      {loading ? (
+        <Loader />
+      ) : (
         <div className="mx-10 my-10 display-flex align-items ">
           <h2 className="text-xl font-bold mb-2">Questions</h2>
-          <p className="text-gray-600 mb-4">Please fill the Security Questions</p>
-
+          <p className="text-gray-600 mb-4">
+            Please fill the Security Questions
+          </p>
           <form className="flex flex-col" onSubmit={handleSubmit}>
             <div className="flex-col ">
               <select
@@ -135,11 +138,13 @@ function QuestionForm() {
                 <option value="" selected disabled hidden>
                   Choose a Template Name...
                 </option>
-                {template.map((index) => (
-                  <option key={index} value={index._id}>
-                    {index.templatename}
-                  </option>
-                ))}
+                {template
+                  ?.filter((s) => s.vendorid == vendor_id)
+                  ?.map((index) => (
+                    <option key={index} value={index._id}>
+                      {index.templatename}
+                    </option>
+                  ))}
               </select>
             </div>
             {count.length > 0 &&
@@ -171,7 +176,6 @@ function QuestionForm() {
             </button>
           </form>
         </div>
-
       )}
     </div>
   );

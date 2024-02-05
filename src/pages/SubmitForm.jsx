@@ -100,7 +100,6 @@ const SubmitForm = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(formData);
     let x = JSON.parse(sessionStorage.getItem("questions"));
     if (x?.length > 0) {
       x = [...x, ...formData];
@@ -108,7 +107,6 @@ const SubmitForm = () => {
       x = formData;
     }
     let questions = x;
-    console.log(questions);
     // return;
     const config = {
       method: "put",
@@ -123,6 +121,7 @@ const SubmitForm = () => {
     await axios(config)
       .then((res) => {
         console.log(res);
+        fetchData();
         alert("Successfully Updated Details");
       })
       .catch((err) => {
