@@ -1,143 +1,146 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
 
 export default function Template() {
   const [questions, setQuestions] = useState([]);
-  // const [vendors, setVendors] = useState([]);
-  const [loading , setLoading] = useState(false);
+  const [vendors, setVendors] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const locate = useLocation();
+  const navigateBack = () => {
+    navigate(-1);
+  };
 
-  const navigateBack = () =>{
-    navigate(-1)
-  }
-
-  useEffect(()=>{
+  useEffect(() => {
     setLoading(true);
-    setTimeout(()=>{
-        setLoading(false)
-    },2500)
-},[])
+    setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const result = await axios.get('http://localhost:8000/api/auth/get/questions');
+        const result = await axios.get(
+          `http://localhost:8000/api/auth/get/questions?template_id=${locate?.state?.template_id}&vendor_id=${locate?.state?.vendor_id}`
+        );
         setQuestions(result.data);
-        console.log(setQuestions);
+
+        const result1 = await axios.get(
+          `http://localhost:8000/api/auth/get/vendors?id=${locate?.state?.vendor_id}`
+        );
+        setVendors(result1.data);
+        console.log(result1);
       } catch (error) {
-        console.error('Error fetching questions: ', error);
+        console.error("Error fetching questions: ", error);
       }
     }
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const result = await axios.get('http://localhost:8000/api/auth/get/vendors');
-  //       setVendors(result.data);
-  //       console.log(setVendors);
-  //     } catch (error) {
-  //       console.error('Error fetching questions: ', error);
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
-
   return (
-
     <div className="transition-shadow">
       <Navbar />
-      {loading ? (<Loader/>):(
+      {loading ? (
+        <Loader />
+      ) : (
         <main className=" mx-10 my-10">
-        <a className="text-blue-600 hover:underline flex items-center space-x-1" href="#">
-          <ChevronLeftIcon className="w-5 h-5" />
-          <button onClick={navigateBack} type="button" className="text-black"><span>Back</span></button>
-        </a>
-        <div className="mt-4">
-          <details className="border-t border-b" open>
-            <summary className="flex justify-between items-center p-4 cursor-pointer">
-              <span className="text-lg font-medium">Vendor Details</span>
-              <ChevronDownIcon className="w-5 h-5" />
-            </summary>
-            <div className="p-4">
-              <div className="max-w-4xl mx-auto my-8 p-6 bg-white rounded-lg shadow-md">
-                <h2 className="text-2xl font-semibold mb-4">Vendor Details</h2>
-                <div className="grid grid-cols-3 gap-6">
-                  <div>
-                    <div className="flex items-center space-x-2 mb-1">
-                      <span className="font-medium">Vendor Name</span>
-                      <ClipboardIcon className="h-4 w-4" />
+          <a
+            className="text-blue-600 hover:underline flex items-center space-x-1"
+            href="#"
+          >
+            <ChevronLeftIcon className="w-5 h-5" />
+            <button onClick={navigateBack} type="button" className="text-black">
+              <span>Back</span>
+            </button>
+          </a>
+          <div className="mt-4">
+            <details className="border-t border-b" open>
+              <summary className="flex justify-between items-center p-4 cursor-pointer">
+                <span className="text-lg font-medium">Vendor Details</span>
+                <ChevronDownIcon className="w-5 h-5" />
+              </summary>
+              <div className="p-4">
+                <div className="max-w-4xl mx-auto my-8 p-6 bg-white rounded-lg shadow-md">
+                  <h2 className="text-2xl font-semibold mb-4">
+                    Vendor Details
+                  </h2>
+                  <div className="grid grid-cols-3 gap-6">
+                    <div>
+                      <div className="flex items-center space-x-2 mb-1">
+                        <span className="font-medium">Vendor Name</span>
+                        <ClipboardIcon className="h-4 w-4" />
+                      </div>
+                      <p className="mb-4">{vendors[0]?.vendorName}</p>
+                      <div className="flex items-center space-x-2 mb-1">
+                        <span className="font-medium">Template Version</span>
+                        <FileIcon className="h-4 w-4" />
+                      </div>
+                      <p>{locate?.state?.template_details?.Version}</p>
                     </div>
-                    <p className="mb-4">Sify Technologies</p>
+                    <div>
+                      <div className="flex items-center space-x-2 mb-1">
+                        <span className="font-medium">Inc Date</span>
+                        <CalendarIcon className="h-4 w-4" />
+                      </div>
+                      <p className="mb-4">
+                        {vendors[0]?.incorporationdate?.split("T")[0]}
+                      </p>
+                      <div className="flex items-center space-x-2 mb-1">
+                        <span className="font-medium">Contact Name</span>
+                        <PersonStandingIcon className="h-4 w-4" />
+                      </div>
+                      <p>{vendors[0]?.contactName}</p>
+                    </div>
+                    <div>
+                      <div className="flex items-center space-x-2 mb-1">
+                        <span className="font-medium">Onboarding Date</span>
+                        <CalendarIcon className="h-4 w-4" />
+                      </div>
+                      <p className="mb-4">
+                        {vendors[0]?.onboardingdate?.split("T")[0]}
+                      </p>
+                      <div className="flex items-center space-x-2 mb-1">
+                        <span className="font-medium">Contact Email</span>
+                        <MailboxIcon className="h-4 w-4" />
+                      </div>
+                      <p> {vendors[0]?.contactEmail}</p>
+                    </div>
+                  </div>
+                  <div className="mt-6">
                     <div className="flex items-center space-x-2 mb-1">
-                      <span className="font-medium">Template Version</span>
+                      <span className="font-medium">Template Name</span>
                       <FileIcon className="h-4 w-4" />
                     </div>
-                    <p>V1</p>
+                    <p>{locate?.state?.template_details?.templatename}</p>
                   </div>
-                  <div>
-                    <div className="flex items-center space-x-2 mb-1">
-                      <span className="font-medium">Inc Date</span>
-                      <CalendarIcon className="h-4 w-4" />
-                    </div>
-                    <p className="mb-4">1996-Feb-27</p>
-                    <div className="flex items-center space-x-2 mb-1">
-                      <span className="font-medium">Contact Name</span>
-                      <PersonStandingIcon className="h-4 w-4" />
-                    </div>
-                    <p>Sify Admin</p>
-                  </div>
-                  <div>
-                    <div className="flex items-center space-x-2 mb-1">
-                      <span className="font-medium">Onboarding Date</span>
-                      <CalendarIcon className="h-4 w-4" />
-                    </div>
-                    <p className="mb-4">2011-Mar-31</p>
-                    <div className="flex items-center space-x-2 mb-1">
-                      <span className="font-medium">Contact Email</span>
-                      <MailboxIcon className="h-4 w-4" />
-                    </div>
-                    <p>karthiksarava@gmail.com</p>
-                  </div>
-                </div>
-                <div className="mt-6">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <span className="font-medium">Template Name</span>
-                    <FileIcon className="h-4 w-4" />
-                  </div>
-                  <p>Azure AI Demo Compliance Final</p>
                 </div>
               </div>
-            </div>
-          </details>
-          <details className="border-t border-b">
-            <summary className="flex justify-between items-center p-4 cursor-pointer">
-              <span className="text-lg font-medium">Questions</span>
-              <ChevronUpIcon className="w-5 h-5" />
-            </summary>
-             <div className="p-4 space-y-4" >
-              {questions.map((question, index) => {
-                return (
-                  <div key={index} className=" border-t pt-4">
-                    <p>{question.text}</p>
-                  </div>
-                );
-              })
-              }
-            </div>
-          </details>
-        </div>
-      </main>
+            </details>
+            <details className="border-t border-b">
+              <summary className="flex justify-between items-center p-4 cursor-pointer">
+                <span className="text-lg font-medium">Questions</span>
+                <ChevronUpIcon className="w-5 h-5" />
+              </summary>
+              <div className="p-4 space-y-4">
+                {questions?.map((question, index) => {
+                  return (
+                    <div key={index} className=" border-t pt-4">
+                      <p>{question.text}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </details>
+          </div>
+        </main>
       )}
-      
     </div>
   );
 }
-
 
 function ChevronDownIcon(props) {
   return (
@@ -155,9 +158,8 @@ function ChevronDownIcon(props) {
     >
       <path d="m6 9 6 6 6-6" />
     </svg>
-  )
+  );
 }
-
 
 function ChevronLeftIcon(props) {
   return (
@@ -175,7 +177,7 @@ function ChevronLeftIcon(props) {
     >
       <path d="m15 18-6-6 6-6" />
     </svg>
-  )
+  );
 }
 
 function CalendarIcon(props) {
@@ -197,9 +199,8 @@ function CalendarIcon(props) {
       <line x1="8" x2="8" y1="2" y2="6" />
       <line x1="3" x2="21" y1="10" y2="10" />
     </svg>
-  )
+  );
 }
-
 
 function ClipboardIcon(props) {
   return (
@@ -218,9 +219,8 @@ function ClipboardIcon(props) {
       <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
       <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
     </svg>
-  )
+  );
 }
-
 
 function FileIcon(props) {
   return (
@@ -239,9 +239,8 @@ function FileIcon(props) {
       <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
       <polyline points="14 2 14 8 20 8" />
     </svg>
-  )
+  );
 }
-
 
 function MailboxIcon(props) {
   return (
@@ -262,9 +261,8 @@ function MailboxIcon(props) {
       <path d="M6.5 5C9 5 11 7 11 9.5V17a2 2 0 0 1-2 2v0" />
       <line x1="6" x2="7" y1="10" y2="10" />
     </svg>
-  )
+  );
 }
-
 
 function PersonStandingIcon(props) {
   return (
@@ -285,7 +283,7 @@ function PersonStandingIcon(props) {
       <path d="m6 8 6 2 6-2" />
       <path d="M12 10v4" />
     </svg>
-  )
+  );
 }
 
 function ChevronUpIcon(props) {
@@ -304,5 +302,5 @@ function ChevronUpIcon(props) {
     >
       <path d="m18 15-6-6-6 6" />
     </svg>
-  )
+  );
 }
