@@ -13,6 +13,10 @@ const VendorComplianceTemplate = () => {
   const locate = useLocation();
   const [loading , setLoading] =useState(false);
 
+  const navigateBack = () =>{
+    navigate(-1);
+  }
+
   const navigateToContacts = () => {
     // 👇️ navigate to /contacts
     navigate("/SecurityTemplate");
@@ -79,7 +83,12 @@ const VendorComplianceTemplate = () => {
       <Navbar />
       {loading ? (<Loader/>):(
         <div className="p-5 mx-10 mt-10 ">
-        <h1 className="text-2xl font-bold mb-5">Templates</h1>
+             <a className="text-blue-600 hover:underline flex items-center space-x-1 mb-3" >
+          <ChevronLeftIcon className="w-5 h-5" />
+          <button onClick={navigateBack} type="button" className="text-black"><span>Back</span></button>
+        </a>
+        <hr className="divide-y divide-solid divide-inherit " />
+        <h1 className="text-2xl font-bold mb-5 mt-5">Templates</h1>
         <table className="w-full border-collapse table-auto">
           <thead>
             <tr>
@@ -176,5 +185,24 @@ const VendorComplianceTemplate = () => {
     </div>
   );
 };
+
+function ChevronLeftIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m15 18-6-6 6-6" />
+    </svg>
+  )
+}
 
 export default VendorComplianceTemplate;

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BASE_URL } from "../utils/apiConst";
 import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
 
@@ -26,6 +28,7 @@ const AdminPage = () => {
     <div>
       <Navbar />
       {loading ? (<Loader />) : (
+        <div>
         <div className="bg-white py-1 mt-10 mx-10">
           <div className="flex justify-between items-center mx-6">
             <div>
@@ -54,6 +57,8 @@ const AdminPage = () => {
           </div>
           <hr className="divide-y divide-solid divide-inherit mt-4 " />
         </div>
+        </div>
+        
 
       )}
     </div>

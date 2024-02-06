@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
@@ -7,6 +8,11 @@ export default function Template() {
   const [questions, setQuestions] = useState([]);
   // const [vendors, setVendors] = useState([]);
   const [loading , setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const navigateBack = () =>{
+    navigate(-1)
+  }
 
   useEffect(()=>{
     setLoading(true);
@@ -49,7 +55,7 @@ export default function Template() {
         <main className=" mx-10 my-10">
         <a className="text-blue-600 hover:underline flex items-center space-x-1" href="#">
           <ChevronLeftIcon className="w-5 h-5" />
-          <a href="/VendorComplianceTemplate"><span>Back</span></a>
+          <button onClick={navigateBack} type="button" className="text-black"><span>Back</span></button>
         </a>
         <div className="mt-4">
           <details className="border-t border-b" open>

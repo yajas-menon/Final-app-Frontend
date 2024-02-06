@@ -49,6 +49,10 @@ const VendorList = () => {
   const navigate = useNavigate();
   const [loading , setLoading] = useState(false);
 
+  const navigateBack = () =>{
+    navigate(-1);
+  }
+
   useEffect(()=>{
     setLoading(true);
     setTimeout(()=>{
@@ -92,7 +96,12 @@ const VendorList = () => {
       {loading ? (<Loader />) : (
         <div class=" py-8">
           <div class=" mx-auto px-4">
-            <h1 class="text-3xl font-semibold mb-4 ml-10">Vendor</h1>
+          <a className="text-blue-600 hover:underline flex items-center space-x-1" href="#">
+          <ChevronLeftIcon className="w-5 h-5" />
+          <button onClick={navigateBack} type="button" className="text-black"><span>Back</span></button>
+        </a>
+        <hr className="divide-y divide-solid divide-inherit mt-4 mx-10" />
+            <h1 class="text-3xl font-semibold mb-4 mx-10 mt-5">Vendors</h1>
             <div class="flex justify-between items-center">
               <div class="flex w-20 max-w-lg ml-10">
                 <input
@@ -121,7 +130,7 @@ const VendorList = () => {
             </div>
           </div>
         </div>)}
-    </div><div className="flex items-center justify-center h-screen">
+    </div><div className="flex items-center justify-center">
         <div className="max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-row md:flex-row md:space-x-6 space-y-6 md:space-y-0 py-6">
             <div className="flex flex-wrap ">

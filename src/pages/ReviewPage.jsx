@@ -1,44 +1,84 @@
-import React from 'react';
+import React , {useEffect ,useState}from 'react';
+import axios from 'axios';
 import Navbar from '../components/Navbar';
 
-const ReviewPage = () => {
-    return (
-        <div>
-            <Navbar/>
-            <div className="container p-4 mx-10 my-10">
-                <h1 className="text-2xl font-bold mb-4 mt-5">Question Review Page</h1>
-                <div className="grid grid-cols-6 gap-4">
-                    <div className="col-span-3">
-                        <p className="text-lg font-semibold mb-2">Question:</p>
-                        <p className="mb-4 text-gray-700">What is the policy on expense reimbursement?</p>
-                        <p className="text-lg font-semibold mb-2">Vendor Comments:</p>
-                        <p className="mb-4 text-gray-700">The policy allows for timely reimbursement of approved expenses.</p>
-                        <p className="text-lg font-semibold mb-2">Reviewer Comments:</p>
-                        <input type="text" className="w-full border rounded-md py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" />
-                    </div>
-                    <div className="col-span-2">
-                        <img src="/path/to/evidence_doc.jpg" alt="Evidence Doc Thumbnail" className="rounded-md w-full h-64 object-cover" />
-                    </div>
-                    <div className="col-span-1 flex flex-col items-center justify-between">
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-4">
-                            Save
-                        </button>
-                        <div className="flex space-x-4 mt-4">
-                            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
-                                Approve
-                            </button>
-                            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
-                                Reject
-                            </button>
-                        </div>
-                        <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-full mt-4">
-                            Submit
-                        </button>
-                    </div>
-                </div>
-            </div>
+function ReviewPage() {
+    const [users, setUsers] = useState([]);
+    const [formData , setFormData] = useState();
+    useEffect(() => {
+        async function fetchData() {
+          try {
+            const result = await axios.get(
+              "http://localhost:8000/api/auth/get/user"
+            );
+            setUsers(result);
+          } catch (error) {
+            console.error("Error fetching data: ", error);
+          }
+        }
+        fetchData();
+      }, []);
+
+      const handleInputChange = (e) => {
+        setFormData({
+          ...formData,
+          [e.target.id]: e.target.value,
+        });
+      };
+  return (
+
+
+
+    <div>
+        <Navbar/>
+        <div  className='mx-10 my-5'>
+        <select
+            id="vendorid"
+            name="templateId"
+            className="bg-gray-50  max-w-xs my-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            onChange={handleInputChange}
+          >
+            <option value="" selected disabled hidden>
+              Choose a Vendor Name...
+            </option>
+            {users?.map((index) => (
+              <option key={index} >
+                {index.name}
+              </option>
+            ))}
+          </select>
+      <table className="min-w-full divide-y divide-gray-200 ">
+        <thead>
+          <tr>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Questions</th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Answers</th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Documents</th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vendor Name</th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Template Name</th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Name</th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-20">Actions</th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          <tr>
+            <td className="px-6 py-4 whitespace-nowrap">What is your name?</td>
+            <td className="px-6 py-4 whitespace-nowrap">John Doe</td>
+            <td className="px-6 py-4 whitespace-nowrap">Document 1</td>
+            <td className="px-6 py-4 whitespace-nowrap">Vendor 1</td>
+            <td className="px-6 py-4 whitespace-nowrap">Template 1</td>
+            <td className="px-6 py-4 whitespace-nowrap">User 1</td>
+            <td className="px-6 py-4 whitespace-nowrap flex gap-2">
+              <button className="bg-black h-10 whitespace-nowrap rounded-lg hover:bg-blue-700 text-white font-bold py-2 px-4 ">Approve</button>
+              <button className="bg-white h-10 flex hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">Reject</button>
+            </td>
+          </tr>
+          {/* Additional rows */}
+        </tbody>
+      </table>
+      <button type="button" class=" rounded-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
         </div>
-    );
-};
+    </div>
+  );
+}
 
 export default ReviewPage;
