@@ -20,6 +20,19 @@ const SubmitForm = () => {
         setLoading(false)
     },2500)
 },[])
+
+const ApiCall = async () =>{
+  const response = await fetch("http://127.0.0.1:5000/make_request", {
+    method: "POST",
+    headers: {
+    'Content-Type' : 'application/json'
+    },
+    body: JSON.stringify()
+    })
+    if (response.ok){
+    console.log("it worked")
+    }
+}
  
   async function fetchData() {
     try {
@@ -217,7 +230,7 @@ const SubmitForm = () => {
             ))}
           </tbody>
         </table>
-        <button className="right-align" onClick={handleSubmit}>
+        <button className="right-align" onSubmit={ApiCall} onClick={handleSubmit}>
           Submit
         </button>
       </div>

@@ -10,6 +10,7 @@ import TemplateForm from "./pages/TemplateForm";
 import VendorForm from "./pages/VendorForm";
 import ReviewPage from "./pages/ReviewPage";
 import AdminPage from "./pages/AdminPage";
+import FetchUser from "./pages/FetchUser";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         ></Route>
         <Route exact path="/ReviewPage" element={<ReviewPage />}></Route>
         <Route exact path="/AdminPage" element={<AdminPage />}></Route>
+        <Route exact path="/FetchUser" element={<FetchUser />}></Route>
       </Routes>
     </Router>
   );

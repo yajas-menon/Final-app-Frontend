@@ -4,6 +4,25 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
 
+function ChevronLeftIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m15 18-6-6 6-6" />
+    </svg>
+  );
+}
+
 const TemplateForm = () => {
   const [formData, setFormData] = useState({
     Version: "",
@@ -16,6 +35,7 @@ const TemplateForm = () => {
   const [vendors, setVendors] = useState([]);
   const [selectedTemplateId, setSelectedTemplateId] = useState("");
   const [loading , setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(()=>{
     setLoading(true);
@@ -24,7 +44,10 @@ const TemplateForm = () => {
     },2500)
 },[])
 
-  const navigate = useNavigate();
+const navigateBack = () => {
+  navigate(-1);
+}
+
 
   const handleInputChange = (e) => {
     setFormData({
@@ -82,6 +105,12 @@ const TemplateForm = () => {
       <Navbar />
     {loading ? (<Loader/>):(
       <div className="display-flex items-center mx-12 my-5">
+         <a className="text-blue-600 hover:underline flex items-center space-x-1 mb-3">
+            <ChevronLeftIcon className="w-5 h-5" />
+            <button onClick={navigateBack} type="button" className="text-black">
+              <span>Back</span>
+            </button>
+          </a>
       <div className="border border-gray-300 p-4 rounded-md">
         <h2 className="text-xl font-bold mb-2">Template</h2>
         <p className="text-gray-600 mb-4">
