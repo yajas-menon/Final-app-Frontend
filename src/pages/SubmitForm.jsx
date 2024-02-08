@@ -2,37 +2,37 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./SubmitForm.css";
 import { BASE_URL } from "../utils/apiConst";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
 
 const SubmitForm = () => {
   const [formData, setFormData] = useState([]);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
   const locate = useLocation();
   const [NewQuestions, setNewQuestions] = useState([]);
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(false);
+  const params = useParams();
 
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
-      setLoading(false)
-    }, 2500)
-  }, [])
+      setLoading(false);
+    }, 2500);
+  }, []);
 
   const ApiCall = async () => {
     const response = await fetch("http://127.0.0.1:5000/make_request", {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify()
-    })
+      body: JSON.stringify(),
+    });
     if (response.ok) {
-      console.log("it worked")
+      console.log("it worked");
     }
-  }
+  };
 
   async function fetchData() {
     try {
@@ -83,12 +83,12 @@ const SubmitForm = () => {
     } else {
       let obj = {
         answer: e.target.value,
-        question_id: id,
+        RequestID: params.requestId,
+        Question: NewQuestions?.find((s) => s._id == id)?.text,
       };
       updatedFormData?.push(obj);
     }
     setFormData(updatedFormData);
-    console.log(formData)
   };
 
   async function getBase64(file) {
@@ -102,14 +102,23 @@ const SubmitForm = () => {
     });
   }
 
-  const handleFileUpload = async (e, index) => {
-    console.log(e.target.files[0]);
+  const handleFileUpload = async (e, index, question_id) => {
     let file = "";
     await getBase64(e.target.files[0]).then((data) => {
       file = data;
     });
     const updatedFormData = [...formData];
-    updatedFormData[index].file = file;
+    if (updatedFormData[index]?.file) {
+      updatedFormData[index].file = file;
+    } else {
+      let obj = {
+        Question: NewQuestions?.find((s) => s._id == question_id)?.text,
+        RequestID: params.requestId,
+        EvidenceBinary: file.split(",")[1],
+      };
+      updatedFormData.push(obj);
+    }
+    console.log(updatedFormData);
     setFormData(updatedFormData);
   };
 
@@ -133,9 +142,25 @@ const SubmitForm = () => {
       data: questions,
     };
     await axios(config)
-      .then((res) => {
+      .then(async (res) => {
         console.log(res);
-        fetchData();
+        let url = "xyz";
+        const config = {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          url: url,
+          data: formData,
+        };
+        await axios(config)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        await fetchData();
         alert("Successfully Updated Details");
       })
       .catch((err) => {
@@ -164,10 +189,13 @@ const SubmitForm = () => {
   return (
     <div>
       <Navbar />
-      {loading ? (<Loader />) : (
+      {loading ? (
+        <Loader />
+      ) : (
         <div className="container mt-4">
           <p className="text-gray-600 mb-4 font-bold mt-6">
-            Please fill the answers for each of the questions and upload the documents if required
+            Please fill the answers for each of the questions and upload the
+            documents if required
           </p>
           <h1 className="title">Security Question Form</h1>
           <table>
@@ -185,7 +213,9 @@ const SubmitForm = () => {
                         )?.answer ||
                         ""
                       }
-                      onChange={(e) => handleInputChange(e, index, question?._id)}
+                      onChange={(e) =>
+                        handleInputChange(e, index, question?._id)
+                      }
                       required
                     />
                   </td>
@@ -193,7 +223,9 @@ const SubmitForm = () => {
                     <input
                       type="file"
                       accept=".pdf, .doc , .docx , .txt"
-                      onChange={(e) => handleFileUpload(e, index)}
+                      onChange={(e) =>
+                        handleFileUpload(e, index, question?._id)
+                      }
                       onDone
                       className="border-none text-sm text-grey-500
                     file:mr-5 file:py-2 file:px-6
@@ -201,8 +233,7 @@ const SubmitForm = () => {
                     file:text-sm file:font-medium
                     file:bg-blue-50 file:text-blue-700
                     hover:file:cursor-pointer hover:file:bg-amber-50
-                    hover:file:text-amber-700
-        "
+                    hover:file:text-amber-700"
                     />
                   </td>
                   <td>
@@ -242,12 +273,14 @@ const SubmitForm = () => {
               ))}
             </tbody>
           </table>
-          <button className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" onSubmit={ApiCall} onClick={handleSubmit}>
+          <button
+            className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
+            onClick={handleSubmit}
+          >
             Submit
           </button>
         </div>
       )}
-
     </div>
   );
 };
