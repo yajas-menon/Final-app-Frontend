@@ -12,6 +12,7 @@ const VendorComplianceTemplate = () => {
   const [data, setData] = useState([]);
   const locate = useLocation();
   const [loading, setLoading] = useState(false);
+ 
 
   const navigateBack = () => {
     navigate(-1);

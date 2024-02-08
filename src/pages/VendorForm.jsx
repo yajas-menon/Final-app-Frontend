@@ -105,7 +105,7 @@ const VendorForm = () => {
         <div>
             <Navbar />
             {loading ? (<Loader/>):(
-                <div className="display-flex items-center mx-12 my-5">
+                <div className="display-flex items-center mx-12 my-5 transition duration-500 ease-in-out">
                      <a className="text-blue-600 hover:underline flex items-center space-x-1 mb-3">
             <ChevronLeftIcon className="w-5 h-5" />
             <button onClick={navigateBack} type="button" className="text-black">

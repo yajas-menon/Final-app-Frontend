@@ -1,8 +1,31 @@
-import react from "react";
+import react, { useEffect, useRef, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import loginSvg from "../assets/login-icon.svg"
+import userIcon from "../assets/user-icon.svg";
+import settingIcon from "../assets/settings-icon.svg";
+
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [isOpen , setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(()=>{
+    const handleOutsideClick = (e) =>{
+      if(dropdownRef.current && !dropdownRef.current.contains(e.target)){
+        setIsOpen(false);
+      }
+    };
+
+  document.addEventListener('mousedown',handleOutsideClick);
+  return () =>{
+    document.removeEventListener('mousedown',handleOutsideClick);
+  }
+},[]);
+  
+  const toggleDropdown = () =>{
+    setIsOpen(!isOpen);
+  }
 
   const navigateToContacts = () => {
     sessionStorage.clear();
@@ -10,6 +33,13 @@ const Navbar = () => {
     // 👇️ navigate to /contacts
     navigate("/");
   };
+
+  const navigateToLogin = () =>{
+    sessionStorage.clear();
+    localStorage.clear();
+
+    navigate("/")
+  }
 
   return (
     <div>
@@ -23,34 +53,26 @@ const Navbar = () => {
           </a>
         </div>
         <button
-          onClick={navigateToContacts}
           className="px-3 py-1 mr-10  text-gray-800 hover:border-black hover:text-grey transition duration-200 ease-in"
         >
           {sessionStorage.getItem("jwtToken") ? (
-            <>
-              Logout{" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="h-4 w-4 inline ml-1"
-              >
-                <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z"></path>
-                <path d="M5 15h14l-1.5-1.5L11 13 7 9z"></path>
-              </svg>
-            </>
+            <div className="relative" ref={dropdownRef}>
+              <img src={userIcon} alt="Dropdown" className="cursor-pointer h-6 w-6 inline" onClick={toggleDropdown}/>
+              {isOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg">
+                  <ul>
+                    <li className="py-2 px-4 hover:bg-gray-100"><img src={settingIcon} alt="Setting-icon" className="h-4 w-4 mr-2 inline"/>Settings</li>
+                    <li className="py-2 px-4 hover:bg-gray-100" onClick={navigateToContacts} ><img src={loginSvg} alt="Logout-icon" className="h-4 w-4 mr-2 inline"/> Logout</li>
+                  </ul>
+                </div>
+              )
+
+              }
+            </div>
           ) : (
             <>
               Login{" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="h-4 w-4 inline ml-1"
-              >
-                <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z"></path>
-                <path d="M5 15h14l-1.5-1.5L11 13 7 9z"></path>
-              </svg>
+             <img onClick={navigateToLogin} src={loginSvg} alt="Login-icon" className="h-4 w-4 inline"/>
             </>
           )}
         </button>
