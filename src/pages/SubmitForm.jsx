@@ -144,7 +144,7 @@ const SubmitForm = () => {
     await axios(config)
       .then(async (res) => {
         console.log(res);
-        let url = "xyz";
+        let url = "http://127.0.0.1:5000/make_request";
         const config = {
           method: "post",
           headers: {
@@ -193,12 +193,13 @@ const SubmitForm = () => {
         <Loader />
       ) : (
         <div className="container mt-4">
-          <p className="text-gray-600 mb-4 font-bold mt-6">
+          <p className="text-gray-600 mb-4 font-bold mt-6 mx-10">
             Please fill the answers for each of the questions and upload the
             documents if required
           </p>
-          <h1 className="title">Security Question Form</h1>
-          <table>
+          <hr className="divide-y divide-solid divide-inherit mt-4 mx-10 " />
+          {/* <h1 className="mx-10 font-bold text-2xl">Security Question Form</h1> */}
+          <table className="mx-10 my-6">
             <tbody>
               {NewQuestions.map((question, index) => (
                 <tr key={index}>
@@ -273,12 +274,14 @@ const SubmitForm = () => {
               ))}
             </tbody>
           </table>
+         
           <button
-            className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
+            className="align-middle mx-10 select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
             onClick={handleSubmit}
           >
             Submit
           </button>
+          
         </div>
       )}
     </div>

@@ -12,16 +12,18 @@
 
 
 
-.title{
+/* .title{
     text-align: left;
     color: #333;
     font-weight: bold;
     font-size: x-large;
     margin-top: 5px;
-}
+    margin-right:10px;
+} */
 
 table{
     width: 100%;
+    margin-right: 10px;
     
 }
 table th , table td{
