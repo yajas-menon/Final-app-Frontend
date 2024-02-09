@@ -94,7 +94,11 @@ function ReviewPage() {
                     <button className="bg-white h-10 flex hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow inline">Reject</button>
 
                 </div> */}
-                    <button type="button" class=" rounded-full mt-10 text-white bg-black hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
+                <div className='flex justify-center inline my-10'>
+
+                    <button type="button" class=" rounded-full text-white bg-black hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
+                    <button className="bg-white h-10 flex hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">Reject</button>
+                </div>
             </div>
         </div>
     );
