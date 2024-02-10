@@ -21,19 +21,6 @@ const SubmitForm = () => {
     }, 2500);
   }, []);
 
-  const ApiCall = async () => {
-    const response = await fetch("http://127.0.0.1:5000/make_request", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(),
-    });
-    if (response.ok) {
-      console.log("it worked");
-    }
-  };
-
   async function fetchData() {
     try {
       const config = {
@@ -77,12 +64,13 @@ const SubmitForm = () => {
 
   const handleInputChange = (e, index, id) => {
     const updatedFormData = [...formData];
-    if (updatedFormData[index]?.answer) {
-      updatedFormData[index].answer = e.target.value;
+    if (updatedFormData[index]?.comment) {
+      updatedFormData[index].comment = e.target.value;
       updatedFormData[index].question_id = id;
     } else {
       let obj = {
-        answer: e.target.value,
+        comment: e.target.value,
+        question_id: id,
         RequestID: params.requestId,
         Question: NewQuestions?.find((s) => s._id == id)?.text,
       };
@@ -108,12 +96,13 @@ const SubmitForm = () => {
       file = data;
     });
     const updatedFormData = [...formData];
-    if (updatedFormData[index]?.file) {
-      updatedFormData[index].file = file;
+    if (updatedFormData[index]?.EvidenceBinary) {
+      updatedFormData[index].EvidenceBinary = file;
     } else {
       let obj = {
         Question: NewQuestions?.find((s) => s._id == question_id)?.text,
         RequestID: params.requestId,
+        question_id: question_id,
         EvidenceBinary: file.split(",")[1],
       };
       updatedFormData.push(obj);
@@ -130,38 +119,50 @@ const SubmitForm = () => {
       x = formData;
     }
     let questions = x;
-    // return;
+
+    //Api for ML Model
+    let url = "http://127.0.0.1:5000/make_request";
     const config = {
-      method: "put",
+      method: "post",
       headers: {
         "Content-Type": "application/json",
       },
-      url: `${BASE_URL}/api/auth/addAnswers/${sessionStorage.getItem(
-        "user_id"
-      )}`,
-      data: questions,
+      url: url,
+      data: formData,
     };
+
     await axios(config)
       .then(async (res) => {
         console.log(res);
-        let url = "http://127.0.0.1:5000/make_request";
-        const config = {
-          method: "post",
+        questions?.forEach((item, index) => {
+          item.answer = res.data?.find(
+            (s) => s.Question == item?.Question
+          )?.answer;
+          item.Question = "";
+        });
+
+        console.log(questions);
+        return;
+        const config1 = {
+          method: "put",
           headers: {
             "Content-Type": "application/json",
           },
-          url: url,
-          data: formData,
+          url: `${BASE_URL}/api/auth/addAnswers/${sessionStorage.getItem(
+            "user_id"
+          )}`,
+          data: questions,
         };
-        await axios(config)
-          .then((res) => {
+
+        await axios(config1)
+          .then(async (res) => {
             console.log(res);
+            await fetchData();
+            alert("Successfully Updated Details");
           })
           .catch((err) => {
             console.log(err);
           });
-        await fetchData();
-        alert("Successfully Updated Details");
       })
       .catch((err) => {
         console.log(err);
@@ -208,10 +209,10 @@ const SubmitForm = () => {
                     <input
                       type="text"
                       value={
-                        formData[index]?.answer ||
+                        formData[index]?.comment ||
                         user?.questions?.find(
                           (s) => s.question_id == question?._id
-                        )?.answer ||
+                        )?.comment ||
                         ""
                       }
                       onChange={(e) =>
@@ -274,14 +275,13 @@ const SubmitForm = () => {
               ))}
             </tbody>
           </table>
-         
+
           <button
             className="align-middle mx-10 select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
             onClick={handleSubmit}
           >
             Submit
           </button>
-          
         </div>
       )}
     </div>

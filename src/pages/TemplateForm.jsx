@@ -33,21 +33,19 @@ const TemplateForm = () => {
     vendorid: "",
   });
   const [vendors, setVendors] = useState([]);
-  const [selectedTemplateId, setSelectedTemplateId] = useState("");
-  const [loading , setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(()=>{
+  useEffect(() => {
     setLoading(true);
-    setTimeout(()=>{
-        setLoading(false)
-    },2500)
-},[])
+    setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+  }, []);
 
-const navigateBack = () => {
-  navigate(-1);
-}
-
+  const navigateBack = () => {
+    navigate(-1);
+  };
 
   const handleInputChange = (e) => {
     setFormData({
@@ -103,97 +101,100 @@ const navigateBack = () => {
   return (
     <div>
       <Navbar />
-    {loading ? (<Loader/>):(
-      <div className="display-flex items-center mx-12 my-5">
-         <a className="text-blue-600 hover:underline flex items-center space-x-1 mb-3">
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="display-flex items-center mx-12 my-5">
+          <a className="text-blue-600 hover:underline flex items-center space-x-1 mb-3">
             <ChevronLeftIcon className="w-5 h-5" />
             <button onClick={navigateBack} type="button" className="text-black">
               <span>Back</span>
             </button>
           </a>
-      <div className="border border-gray-300 p-4 rounded-md">
-        <h2 className="text-xl font-bold mb-2">Template</h2>
-        <p className="text-gray-600 mb-4">
-          Please fill in the details of the Template
-        </p>
+          <div className="border border-gray-300 p-4 rounded-md">
+            <h2 className="text-xl font-bold mb-2">Template</h2>
+            <p className="text-gray-600 mb-4">
+              Please fill in the details of the Template
+            </p>
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <select
-            id="vendorid"
-            name="templateId"
-            className="bg-gray-50  max-w-xs my-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            onChange={handleInputChange}
-          >
-            <option value="" selected disabled hidden>
-              Choose a Vendor Name...
-            </option>
-            {vendors?.map((index) => (
-              <option key={index} value={index._id}>
-                {index.vendorName}
-              </option>
-            ))}
-          </select>
-          <div className="space-y-2">
-            <label htmlFor="Version" className="block font-semibold text-sm">
-              Version
-            </label>
-            <input
-              type="text"
-              id="Version"
-              placeholder="Enter the version"
-              className="w-full p-2 border border-gray-300 rounded-md"
-              onChange={handleInputChange}
-              value={formData.vendorName}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <label
-              htmlFor="templatename"
-              className="block font-semibold text-sm"
-            >
-              Template Name
-            </label>
-            <input
-              type="text"
-              id="templatename"
-              placeholder="Enter Template Name"
-              className="w-full p-2 border border-gray-300 rounded-md"
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              <select
+                id="vendorid"
+                name="templateId"
+                className="bg-gray-50  max-w-xs my-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                onChange={handleInputChange}
+              >
+                <option value="" selected disabled hidden>
+                  Choose a Vendor Name...
+                </option>
+                {vendors?.map((index) => (
+                  <option key={index} value={index._id}>
+                    {index.vendorName}
+                  </option>
+                ))}
+              </select>
+              <div className="space-y-2">
+                <label
+                  htmlFor="Version"
+                  className="block font-semibold text-sm"
+                >
+                  Version
+                </label>
+                <input
+                  type="text"
+                  id="Version"
+                  placeholder="Enter the version"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={handleInputChange}
+                  value={formData.vendorName}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <label
+                  htmlFor="templatename"
+                  className="block font-semibold text-sm"
+                >
+                  Template Name
+                </label>
+                <input
+                  type="text"
+                  id="templatename"
+                  placeholder="Enter Template Name"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={handleInputChange}
+                  value={formData.onboardingdate}
+                  required
+                />
+              </div>
 
-              onChange={handleInputChange}
-              value={formData.onboardingdate}
-              required
-            />
+              <div className="space-y-2">
+                <label
+                  htmlFor="createdon"
+                  className="block font-semibold text-sm"
+                >
+                  Created On
+                </label>
+                <input
+                  type="text"
+                  id="createdon"
+                  placeholder="Enter contact email"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={handleInputChange}
+                  value={formData.contactEmail}
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-black text-white p-2  rounded-md"
+              >
+                Submit
+              </button>
+            </form>
           </div>
-
-          <div className="space-y-2">
-            <label
-              htmlFor="createdon"
-              className="block font-semibold text-sm"
-            >
-              Created On
-            </label>
-            <input
-              type="text"
-              id="createdon"
-              placeholder="Enter contact email"
-              className="w-full p-2 border border-gray-300 rounded-md"
-              onChange={handleInputChange}
-              value={formData.contactEmail}
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-black text-white p-2  rounded-md"
-          >
-            Submit
-          </button>
-        </form>
-      </div>
-    </div>
-    )}
-      
+        </div>
+      )}
     </div>
   );
 };
