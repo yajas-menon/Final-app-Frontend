@@ -139,6 +139,7 @@ const SubmitForm = () => {
             (s) => s.Question == item?.Question
           )?.answer;
           item.Question = "";
+          item.status = "ACTIVE";
         });
 
         console.log(questions);
