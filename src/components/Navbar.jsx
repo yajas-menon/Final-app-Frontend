@@ -48,7 +48,7 @@ const Navbar = () => {
           <a href="/dashboard">
             {" "}
             <span className="text-xl font-bold text-gray-800 ml-10">
-              Risk Compliance Demo
+              Risk Compliance 
             </span>
           </a>
         </div>

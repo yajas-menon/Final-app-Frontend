@@ -1,6 +1,7 @@
-import { Line, Doughnut } from "react-chartjs-2";
+import { PolarArea , Bar} from "react-chartjs-2";
 import {
   Chart as ChartJS,
+  BarElement,
   LineElement,
   CategoryScale,
   LinearScale,
@@ -9,17 +10,16 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import Button from "./Button";
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
+ChartJS.register(BarElement, CategoryScale, LinearScale, PointElement);
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 const yajas = {
   labels: ["Compliant", "Non-Compliant"],
   datasets: [
     {
-      label: "My First Dataset",
-      data: [50, 50],
+      label: "Compliant and Non-compliant",
+      data: [30,70],
       backgroundColor: ["rgb(0, 0, 139)", "rgb(255,0,0)"],
       hoverOffset: 4,
     },
@@ -31,8 +31,8 @@ const yajas3 = {
   labels: ["Ongoing", "Pending"],
   datasets: [
     {
-      label: "My First Dataset",
-      data: [50, 200],
+      label: "Ongoing and Pending",
+      data: [6,24],
       backgroundColor: ["rgb(0, 0, 139)", "rgb(255, 191, 0)"],
       hoverOffset: 4,
     },
@@ -43,44 +43,52 @@ const yajas4 = {
 };
 
 function Graphs() {
-  const labels = ["Apr 13", "Apr 21", "May 13 ", "May 21", "May 25"];
-  const dataset1 = {
-    label: "Line 1",
-    data: [2, 1, 1, 1, 2.2], // replace with your actual data points
-    borderColor: "#ff6384",
-    fill: false,
-  };
-
-  const dataset2 = {
-    label: "Line 2",
-    data: [0.5, 1, 1.5, 2, 2.5], // replace with your actual data points
-    borderColor: "#36a2eb",
-    fill: false,
-  };
-
-  const chartData = {
-    labels,
-    datasets: [dataset1, dataset2],
-  };
+  const labels = ['Jan' , 'Feb' , 'Mar' , 'April' , 'May' , 'June' , 'July']
+const chartData = {
+  labels: labels,
+  datasets: [{
+    label: 'Active and Non Avtive vendors',
+    data: [10,12,14,8,11,13,6],
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
+    borderWidth: 1
+  }]
+};
 
   const options = {};
   return (
     <div>
-      <h1 className="text-3xl font-bold mt-5 ml-10">Overall Status</h1>
-      <Button />
-      <div className="flex">
-        <div className="my-5 mx-10 max-w-xs flex md:flex md:flex-grow flex-row justify-end space-x-1">
-          <Doughnut data={yajas} options={yajas2}></Doughnut>
+      
+      
+      <div className="flex mt-5 ">
+        <div className="my-5 mx-10  max-w-sm flex md:flex md:flex-grow flex-row justify-end space-x-1 ">
+          <Bar data={yajas} options={yajas2}></Bar>
         </div>
-        <div className="my-5 mx-10 max-w-xs flex md:flex md:flex-grow flex-row justify-end space-x-1">
-          <Doughnut data={yajas3} options={yajas4}></Doughnut>
+        <div className="my-5 mx-10 max-w-sm flex md:flex md:flex-grow flex-row justify-end space-x-1 ">
+          <Bar data={yajas3} options={yajas4}></Bar>
         </div>
 
-        <div className="my-5 mx-9 max-w-sm max-h-max flex md:flex md:flex-grow flex-row justify-end space-x-1">
-          <Line data={chartData} options={options}></Line>
+        <div className="my-5 mx-9  max-w-sm  flex md:flex md:flex-grow flex-row justify-end space-x-1 ">
+          <Bar data={chartData} options={options}></Bar>
         </div>
       </div>
-      <hr className="divide-y divide-transparent mt-18"></hr>
+      
     </div>
   );
 }

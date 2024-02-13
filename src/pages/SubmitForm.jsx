@@ -8,20 +8,20 @@ import Loader from "../components/Loader";
 
 const SubmitForm = () => {
   const [formData, setFormData] = useState([]);
+  const [formData1, setFormData1] = useState([]);
   const locate = useLocation();
   const [NewQuestions, setNewQuestions] = useState([]);
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(false);
   const params = useParams();
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2500);
-  }, []);
+  const goBackToDashboard = () =>{
+    navigate('/Dashboard')
+  }
 
   async function fetchData() {
+    setLoading(1);
     try {
       const config = {
         method: "get",
@@ -37,6 +37,7 @@ const SubmitForm = () => {
           setNewQuestions(res.data);
         })
         .catch((err) => {
+          setLoading(0);
           console.log(err);
         });
 
@@ -49,9 +50,11 @@ const SubmitForm = () => {
         .then((res) => {
           console.log(res.data.data);
           setUser(res.data.data);
+          setLoading(0);
         })
         .catch((err) => {
           console.log(err);
+          setLoading(0);
         });
     } catch (error) {
       console.error("Error fetching questions: ", error);
@@ -93,6 +96,7 @@ const SubmitForm = () => {
   const handleFileUpload = async (e, index, question_id) => {
     let file = "";
     await getBase64(e.target.files[0]).then((data) => {
+      // console.log(data)
       file = data;
     });
     const updatedFormData = [...formData];
@@ -103,15 +107,15 @@ const SubmitForm = () => {
         Question: NewQuestions?.find((s) => s._id == question_id)?.text,
         RequestID: params.requestId,
         question_id: question_id,
-        EvidenceBinary: file.split(",")[1],
+        EvidenceBinary: file,
       };
       updatedFormData.push(obj);
     }
-    console.log(updatedFormData);
     setFormData(updatedFormData);
   };
 
   const handleSubmit = async () => {
+    setLoading(1);
     let x = JSON.parse(sessionStorage.getItem("questions"));
     if (x?.length > 0) {
       x = [...x, ...formData];
@@ -119,6 +123,11 @@ const SubmitForm = () => {
       x = formData;
     }
     let questions = x;
+
+    let y = x;
+    y?.forEach((item, key) => {
+      item.EvidenceBinary = item?.EvidenceBinary?.split(",")[1];
+    });
 
     //Api for ML Model
     let url = "http://127.0.0.1:5000/make_request";
@@ -128,22 +137,19 @@ const SubmitForm = () => {
         "Content-Type": "application/json",
       },
       url: url,
-      data: formData,
+      data: y,
     };
 
     await axios(config)
       .then(async (res) => {
-        console.log(res);
+        console.log(res.data)
         questions?.forEach((item, index) => {
-          item.answer = res.data?.find(
+          item.Answer = res.data?.find(
             (s) => s.Question == item?.Question
-          )?.answer;
-          item.Question = "";
+          )?.Answer;
           item.status = "ACTIVE";
         });
 
-        console.log(questions);
-        return;
         const config1 = {
           method: "put",
           headers: {
@@ -151,7 +157,9 @@ const SubmitForm = () => {
           },
           url: `${BASE_URL}/api/auth/addAnswers/${sessionStorage.getItem(
             "user_id"
-          )}`,
+          )}?template_id=${locate?.state?.template_id}&vendor_id=${
+            locate?.state?.vendor_id
+          }&requestID=${params.requestId}`,
           data: questions,
         };
 
@@ -160,12 +168,15 @@ const SubmitForm = () => {
             console.log(res);
             await fetchData();
             alert("Successfully Updated Details");
+            setLoading(0);
           })
           .catch((err) => {
             console.log(err);
+            setLoading(0);
           });
       })
       .catch((err) => {
+        setLoading(0);
         console.log(err);
       });
   };
@@ -254,7 +265,6 @@ const SubmitForm = () => {
                           const result = user?.questions
                             ?.find((s) => s.question_id == question?._id)
                             ?.file.slice(5, semicolonIndex);
-                          console.log(result);
                           showDocument(
                             user?.questions
                               ?.find((s) => s.question_id == question?._id)
@@ -283,6 +293,14 @@ const SubmitForm = () => {
           >
             Submit
           </button>
+          <div className="flex my-3 ">
+          <button
+            className="align-middle mx-10 select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
+            onClick={goBackToDashboard}
+          >
+            Go back to Dashboard
+          </button>
+            </div>
         </div>
       )}
     </div>

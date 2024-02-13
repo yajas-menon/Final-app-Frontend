@@ -11,6 +11,7 @@ import VendorForm from "./pages/VendorForm";
 import ReviewPage from "./pages/ReviewPage";
 import AdminPage from "./pages/AdminPage";
 import FetchUser from "./pages/FetchUser";
+import Dashboard1 from './pages/Dashboard1';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route exact path="/ReviewPage" element={<ReviewPage />}></Route>
         <Route exact path="/AdminPage" element={<AdminPage />}></Route>
         <Route exact path="/FetchUser" element={<FetchUser />}></Route>
+        <Route exact path="/Dashboard1" element={<Dashboard1 />}></Route>
       </Routes>
     </Router>
   );

@@ -14,7 +14,7 @@ function Button() {
         setSelectedButton(buttonId);
       }
       return (
-        <div className="flex space-x-2 max-w-sm max-h-12 border rounded-lg mx-10 mt-3">
+        <div className="flex space-x-2 max-w-sm max-h-12 border-gray-900 rounded-lg mx-10 mt-3 ">
           <button
             id={ALL_BUTTON_ID}
             className={`${selectedButton === ALL_BUTTON_ID ? 'bg-black text-white' : 'bg-white text-black'} flex-1 text-sm font-medium py-2 px-4 rounded-l-lg `}

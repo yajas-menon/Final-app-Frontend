@@ -83,7 +83,7 @@ const VendorList = () => {
               <ChevronLeftIcon className="w-5 h-5" />
               <button onClick={navigateBack} type="button" className="text-black"><span>Back</span></button>
             </a>
-            <hr className="divide-y divide-solid divide-inherit mt-4 mx-10" />
+            <hr className="divide-y divide-solid divide-inherit mt-4 mx-10 " />
             <h1 class="text-3xl font-semibold mb-4 mx-10 mt-5">Vendors</h1>
             <div class="flex justify-between items-center">
               <div className="flex  max-w-lg ml-10">
