@@ -15,9 +15,9 @@ function ReviewPage() {
   const [requests, setRequests] = useState([]);
   const navigate = useNavigate();
 
-  const navigateBack = () =>{
+  const navigateBack = () => {
     navigate(-1);
-  }
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -118,6 +118,15 @@ function ReviewPage() {
       });
   };
 
+  function showDocument(_base64Str, _contentType) {
+    var byte = atob(_base64Str);
+    var blob = new Blob(
+      [new Uint8Array([...byte].map((char) => char.charCodeAt(0)))],
+      { type: _contentType }
+    );
+    window.open(URL.createObjectURL(blob), "_blank");
+  }
+
   return (
     <div>
       <Navbar />
@@ -214,7 +223,29 @@ function ReviewPage() {
                       {questions?.find((s) => s._id == item?.Question)?.text}
                     </td>
                     <td className="px-6 py-4 whitespace-normal break-words word-wrap">
-                      John Doe
+                      <a
+                        onClick={() => {
+                          const semicolonIndex = item?.EvidenceBinary.indexOf(
+                            ";"
+                          );
+                          const semicolonIndex1 = item?.EvidenceBinary.indexOf(
+                            ","
+                          );
+                          const result = item?.EvidenceBinary.slice(
+                            5,
+                            semicolonIndex
+                          );
+                          showDocument(
+                            item?.EvidenceBinary.slice(
+                              semicolonIndex1 + 1,
+                              item?.EvidenceBinary?.length
+                            ),
+                            result
+                          );
+                        }}
+                      >
+                        View
+                      </a>{" "}
                     </td>
                     <td className="px-6 py-4 whitespace-normal break-words words-wrap">
                       {
@@ -261,22 +292,22 @@ function ReviewPage() {
   );
 }
 function ChevronLeftIcon(props) {
-    return (
-      <svg
-        {...props}
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="m15 18-6-6 6-6" />
-      </svg>
-    );
-  }
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m15 18-6-6 6-6" />
+    </svg>
+  );
+}
 
 export default ReviewPage;
