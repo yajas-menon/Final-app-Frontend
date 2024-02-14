@@ -14,11 +14,11 @@ const SubmitForm = () => {
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(false);
   const params = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const goBackToDashboard = () =>{
-    navigate('/Dashboard')
-  }
+  const goBackToDashboard = () => {
+    navigate("/Dashboard");
+  };
 
   async function fetchData() {
     setLoading(1);
@@ -115,7 +115,7 @@ const SubmitForm = () => {
   };
 
   const handleSubmit = async () => {
-    setLoading(1);
+    // setLoading(1);
     let x = JSON.parse(sessionStorage.getItem("questions"));
     if (x?.length > 0) {
       x = [...x, ...formData];
@@ -124,7 +124,7 @@ const SubmitForm = () => {
     }
     let questions = x;
 
-    let y = x;
+    let y = JSON.parse(JSON.stringify(x));
     y?.forEach((item, key) => {
       item.EvidenceBinary = item?.EvidenceBinary?.split(",")[1];
     });
@@ -142,7 +142,7 @@ const SubmitForm = () => {
 
     await axios(config)
       .then(async (res) => {
-        console.log(res.data)
+        console.log(res.data);
         questions?.forEach((item, index) => {
           item.Answer = res.data?.find(
             (s) => s.Question == item?.Question
@@ -193,7 +193,7 @@ const SubmitForm = () => {
   }
 
   function showDocument(_base64Str, _contentType) {
-    console.log(_base64Str);
+    console.log(_base64Str, _contentType);
     var byte = base64ToArrayBuffer(_base64Str);
     var blob = new Blob([byte], { type: _contentType });
     window.open(URL.createObjectURL(blob), "_blank");
@@ -294,13 +294,13 @@ const SubmitForm = () => {
             Submit
           </button>
           <div className="flex my-3 ">
-          <button
-            className="align-middle mx-10 select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
-            onClick={goBackToDashboard}
-          >
-            Go back to Dashboard
-          </button>
-            </div>
+            <button
+              className="align-middle mx-10 select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
+              onClick={goBackToDashboard}
+            >
+              Go back to Dashboard
+            </button>
+          </div>
         </div>
       )}
     </div>
