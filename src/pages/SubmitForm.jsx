@@ -181,21 +181,12 @@ const SubmitForm = () => {
       });
   };
 
-  function base64ToArrayBuffer(_base64Str) {
-    var binaryString = _base64Str;
-    var binaryLen = binaryString.length;
-    var bytes = new Uint8Array(binaryLen);
-    for (var i = 0; i < binaryLen; i++) {
-      var ascii = binaryString.charCodeAt(i);
-      bytes[i] = ascii;
-    }
-    return bytes;
-  }
-
   function showDocument(_base64Str, _contentType) {
-    console.log(_base64Str, _contentType);
-    var byte = base64ToArrayBuffer(_base64Str);
-    var blob = new Blob([byte], { type: _contentType });
+    var byte = atob(_base64Str);
+    var blob = new Blob(
+      [new Uint8Array([...byte].map((char) => char.charCodeAt(0)))],
+      { type: _contentType }
+    );
     window.open(URL.createObjectURL(blob), "_blank");
   }
 
@@ -258,21 +249,21 @@ const SubmitForm = () => {
                         onClick={() => {
                           const semicolonIndex = user?.questions
                             ?.find((s) => s.question_id == question?._id)
-                            ?.file.indexOf(";");
+                            ?.EvidenceBinary.indexOf(";");
                           const semicolonIndex1 = user?.questions
                             ?.find((s) => s.question_id == question?._id)
-                            ?.file.indexOf(",");
+                            ?.EvidenceBinary.indexOf(",");
                           const result = user?.questions
                             ?.find((s) => s.question_id == question?._id)
-                            ?.file.slice(5, semicolonIndex);
+                            ?.EvidenceBinary.slice(5, semicolonIndex);
                           showDocument(
                             user?.questions
                               ?.find((s) => s.question_id == question?._id)
-                              ?.file.slice(
+                              ?.EvidenceBinary.slice(
                                 semicolonIndex1 + 1,
                                 user?.questions?.find(
                                   (s) => s.question_id == question?._id
-                                )?.file?.length
+                                )?.EvidenceBinary?.length
                               ),
                             result
                           );
