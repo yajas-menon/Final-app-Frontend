@@ -63,13 +63,14 @@ const AdminPage = () => {
                 onClick={navigateToReviewPage}
                 className="bg-slate-800 text-white py-2 px-4 rounded-md hover:bg-slate-950"
               >
-                Vendor Response Page
+                Access Review Page
               </button>
             </div>
           </div>
           <hr className="divide-y divide-solid divide-inherit mt-4 " />
         </div>
         </div>
+         
          <div>
 
              <Graphs />

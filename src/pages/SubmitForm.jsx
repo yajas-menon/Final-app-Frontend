@@ -189,6 +189,12 @@ const SubmitForm = () => {
     );
     window.open(URL.createObjectURL(blob), "_blank");
   }
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+  }, []);
 
   return (
     <div>

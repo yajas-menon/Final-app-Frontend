@@ -76,7 +76,7 @@ const chartData = {
     <div>
       
       
-      <div className="flex mt-5 ">
+      <div className="flex mt-5 ease-in duration-100 ">
         <div className="my-5 mx-10  max-w-sm flex md:flex md:flex-grow flex-row justify-end space-x-1 ">
           <Bar data={yajas} options={yajas2}></Bar>
         </div>

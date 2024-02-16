@@ -1,9 +1,6 @@
-import React, { useState ,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./Login.css";
 import Navbar from "../components/Navbar";
-// import Dashboard from "../pages/Dashboard";
-import { Navigate } from "react-router-dom";
 import Loader from "../components/Loader";
 
 const Login = () => {
@@ -12,15 +9,14 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [mode, setMode] = useState("login");
   const [name, setName] = useState("");
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     setLoading(true);
-    setTimeout(()=>{
-        setLoading(false)
-    },2500)
-},[])
-  
+    setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+  }, []);
 
   const switchMode = () => {
     setMode(mode === "login" ? "register" : "login");
@@ -75,98 +71,101 @@ const Login = () => {
   return (
     <div>
       <Navbar />
-      {loading ? (<Loader/>):(
+      {loading ? (
+        <Loader />
+      ) : (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="w-full max-w-md p-8 space-y-3 rounded-xl shadow-lg bg-white">
-          <h1 className="text-center text-2xl font-bold mb-6">{mode}</h1>
-          {mode === "register" && (
+          <div className="w-full max-w-md p-8 space-y-3 rounded-xl shadow-lg bg-white">
+            <h1 className="text-center text-2xl uppercase font-mono font-bold mb-6">
+              {mode}
+            </h1>
+            {mode === "register" && (
+              <div className="mb-4">
+                <label className="block mb-2" htmlFor="name">
+                  Name:
+                </label>
+                <input
+                  className="px-3 py-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                  type="text"
+                  placeholder="Enter your full name"
+                  value={name}
+                  name="name"
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+            )}
             <div className="mb-4">
-              <label className="block mb-2" htmlFor="name">
-                Name:
+              <label className="block mb-2 " htmlFor="email">
+                Email address
               </label>
               <input
                 className="px-3 py-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                type="text"
-                placeholder="Enter your full name"
-                value={name}
-                name="name"
-                onChange={(e) => setName(e.target.value)}
+                type="email"
+                placeholder="Email address"
+                value={email}
+                name="email"
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-          )}
-          <div className="mb-4">
-            <label className="block mb-2" htmlFor="email">
-              Email:
-            </label>
-            <input
-              className="px-3 py-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-              type="email"
-              placeholder="Enter your email address"
-              value={email}
-              name="email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-2" htmlFor="password">
-              Password:
-            </label>
-            <input
-              className="px-3 py-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              name="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          {mode == "register" ? (
             <div className="mb-4">
               <label className="block mb-2" htmlFor="password">
-                Role
+                Password:
               </label>
-              <select
+              <input
                 className="px-3 py-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                type="text"
-                value={role}
-                name="role"
-                onChange={(e) => setRole(e.target.value)}
-              >
-                <option value="">Select Role</option>
-                <option value="User">User</option>
-                <option value="Admin">Admin</option>
-              </select>
+                type="password"
+                placeholder="password"
+                value={password}
+                name="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
-          ) : null}
-          <div className="flex flex-col md:flex-row justify-between">
-            <button
-              onClick={mode == "login" ? loginUser : registerUser}
-              className="py-2 px-4 bg-indigo-600 hover:bg-indigo-700 transition duration-300 text-white rounded-md w-full mt-4"
-              type="submit"
-            >
-              Submit
-            </button>
+            {mode == "register" ? (
+              <div className="mb-4">
+                <label className="block mb-2" htmlFor="password">
+                  Role
+                </label>
+                <select
+                  className="px-3 py-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                  type="text"
+                  value={role}
+                  name="role"
+                  onChange={(e) => setRole(e.target.value)}
+                >
+                  <option value="">Select Role</option>
+                  <option value="User">User</option>
+                  <option value="Admin">Admin</option>
+                </select>
+              </div>
+            ) : null}
+            <div className="flex flex-col md:flex-row justify-between">
+              <button
+                onClick={mode == "login" ? loginUser : registerUser}
+                className="py-2 px-4 bg-indigo-600 hover:bg-indigo-700 transition duration-300 text-white rounded-md w-full mt-4"
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
+            {mode == "login" ? (
+              <p className="text-xs text-center text-gray-500">
+                Dont Have an Account?{" "}
+                <span onClick={switchMode} className="underline cursor-pointer">
+                  Sign Up
+                </span>
+              </p>
+            ) : (
+              <p className="text-xs text-center text-gray-500">
+                Have an Account?{" "}
+                <span onClick={switchMode} className="underline cursor-pointer">
+                  Log In
+                </span>
+              </p>
+            )}
           </div>
-          {mode == "login" ? (
-            <p className="text-xs text-center text-gray-500">
-              Dont Have an Account?{" "}
-              <span onClick={switchMode} className="underline cursor-pointer">
-                Sign Up
-              </span>
-            </p>
-          ) : (
-            <p className="text-xs text-center text-gray-500">
-              Have an Account?{" "}
-              <span onClick={switchMode} className="underline cursor-pointer">
-                Log In
-              </span>
-            </p>
-          )}
         </div>
-      </div>
-
       )}
-          </div>
+    </div>
   );
 };
 

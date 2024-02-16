@@ -123,7 +123,7 @@ export default function Template() {
             <details className="border-t border-b">
               <summary className="flex justify-between items-center p-4 cursor-pointer">
                 <span className="text-lg font-medium">Questions</span>
-                <ChevronUpIcon className="w-5 h-5" />
+                <ChevronDownIcon className="w-5 h-5" />
               </summary>
               <div className="p-4 space-y-4">
                 {questions?.map((question, index) => {

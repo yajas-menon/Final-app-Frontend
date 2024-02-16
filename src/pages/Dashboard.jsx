@@ -1,10 +1,12 @@
 import react, { useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Graphs from "../components/Graphs";
 import Loader from "../components/Loader";
 import axios from "axios";
 import Chat from "../components/ChatBot";
+import BarGraph from "../components/BarGraphs";
+import LineC from "../components/LineC";
+
 
 
 export default function Component() {
@@ -60,136 +62,182 @@ export default function Component() {
 
   return (
     <div>
-    <Navbar style={{backgroundColor:"#2d3748"}}/>
+      <Navbar />
       {loading ? (
         <Loader size={30} loading={loading} />
       ) : (
-        
-        
-            
-        <div className="bg-gradient-to-r from-gray-900 via-gray-900 to-slate-700 ">
-          <div className="bg-gradient-to-r from-gray-900 via-gray-900 to-slate-700 text-white px-8 py-4 flex flex-col items-center justify-center">
-            <h1 className="text-4xl font-bold font-serif mb-4 mt-24 ">
-              Risk Compliance : Using Generative AI
-            </h1>
-            <p className="text-lg mb-6 text-gray-500 font-medium">
-             Enhance risk compliance with generate AI for 
-             automated, adaptive risk assessment and mitigation 
-             strategies
-            </p>
+        <div>
+         
+            <div className="mt-5 mr-12 text-right ">
+                
             <button
-              onClick={navigateToContacts}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md  inline-flex items-center"
-            >
-              Add Request
-              <ArrowRightIcon className="ml-2" />
-            </button>
+            type="button"
+            onClick={navigateToContacts}
+            class="  h-10  rounded-full text-white bg-slate-600 hover:bg-black focus:ring-4 focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-black dark:hover:bg-black focus:outline-none dark:focus:ring-black"
+          >
+           Add Request
+          </button>
           </div>
+          <div className="flex flex-col min-h-screen mx-10 my-5">
           
-          <div>
-            <Graphs />
-          </div>
-          <div className="mt-5">
+            <main className="flex-1 p-4 flex flex-col gap-4">
             
-          </div>
-          <div>
-            <div className="bg-gradient-to-r from-gray-900 via-gray-900 to-slate-700 p-6 shadow rounded-lg">
-              <div className="flex flex-col space-y-4">
-                <div className="flex justify-between">
-                  <div className="flex space-x-2">
-                    <button className="h-8 w-20 rounded-full bg-white hover:bg-blue-600 active:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 text-black font-medium py-1 px-2">
-                      All
-                    </button>
+              <div className="grid gap-4 md:grid-cols-2">
+              
+              <div className="bg-white rounded-lg shadow-md p-4 ">
+                  <div className="flex flex-col md:flex-row  gap-4">
+                    <div className="grid gap-1.5">
+                      <h2 className="text-lg font-semibold italic tracking-wider">
+                        High-Risk Vendors
+                      </h2>
+                      <p className="text-sm">
+                        Number of vendors with high-risk assessments
+                      </p>
+                    </div>
                   </div>
-                  <div className="relative w-full max-w-xs ">
-                    <input
-                      type="search"
-                      name="q"
-                      className="block appearance-none w-full bg-gray-200 border border-gray-200 text-base leading-normal pl-10 pr-3 py-2 rounded-xl relative mb-4 mt-1 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:z-10"
-                      placeholder="Search"
-                    />
+                  <div className="font-bold font-mono">
+                    42
+                    <span className="lowercase">%</span>
+                  </div>
+               </div>
+               <div className="bg-white rounded-lg shadow-md p-4">
+                  <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+                    <div className="grid gap-1.5">
+                      <h2 className="text-lg font-semibold italic tracking-wide">
+                        Completed Assessments
+                      </h2>
+                      <p className="text-sm">
+                        Percentage of vendors with completed assessments
+                      </p>
+                    </div>
+                  </div>
+                  <div className="font-bold font-mono">
+                    78
+                    <span className="lowercase">%</span>
                   </div>
                 </div>
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gradient-to-r from-gray-900 via-gray-900 to-slate-700">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
-                      >
-                        Request ID
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
-                      >
-                        Raised For
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
-                      >
-                        Compliance Request Status
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-gradient-to-r from-gray-900 via-gray-900 to-slate-700 divide-y divide-gray-200">
-                    {data &&
-                      data?.map((item, key) => {
-                        return (
-                          <tr>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-sm font-medium text-white">
-                                {item?.requestID}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-md text-white">
-                                {
-                                  vendors?.find((s) => s._id == item?.vendor_id)
-                                    ?.vendorName
-                                }
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className="inline-flex px-2 py-1 leading-5 rounded-md bg-green-100 text-green-800">
-                                {item?.status == "PENDING"
-                                  ? "PENDING"
-                                  : item?.status == "APPROVED"
-                                  ? "VERIFIED AND COMPLETED"
-                                  : "REJECTED"}
-                              </span>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
-                <nav
-                  className="flex justify-between items-center"
-                  aria-label="Pagination"
-                >
-                  <p className="text-sm text-white">
-                    Showing <span className="font-medium">{data.length}</span>{" "}
-                    of <span className="font-medium">{data?.length}</span>{" "}
-                    results.
-                  </p>
-                </nav>
               </div>
+              <div className="bg-white rounded-lg shadow-md p-4">
+                <h2 className="text-lg font-semibold">Responses Over Time</h2>
+                <p className="text-sm">
+                  Number of response given by vendors over the past 6 months
+                </p>
+                <BarGraph />
+             </div>
+              <div className="bg-white rounded-lg shadow-md p-4">
+                <h2 className="text-lg font-semibold">Risk Distribution</h2>
+                <p className="text-sm">
+                  Distribution of vendors by risk category
+                </p>
+                <LineC />
+                
+              </div>
+              <div className="bg-white rounded-lg shadow-md p-4">
+                <h2 className="text-lg font-semibold">Vendor List</h2>
+                <p className="text-sm">
+                  List of vendors with relevant information
+                </p>
+                <div>
+                  <div className=" p-6 shadow rounded-lg">
+                    <div className="flex flex-col space-y-4">
+                      <div className="flex justify-between">
+                        <div className="flex space-x-2">
+                          <button className="h-8 w-20 rounded-full bg-slate-600 hover:bg-black active:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 text-white font-medium py-1 px-2">
+                            All
+                          </button>
+                        </div>
+                        <div className="relative w-full max-w-xs ">
+                          <input
+                            type="search"
+                            name="q"
+                            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-base leading-normal pl-10 pr-3 py-2 rounded-xl relative mb-4 mt-1 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:z-10"
+                            placeholder="Search"
+                          />
+                        </div>
+                      </div>
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead>
+                          <tr>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider"
+                            >
+                              Request ID
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider"
+                            >
+                              Raised For
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider"
+                            >
+                              Compliance Request Status
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                          {data &&
+                            data?.map((item, key) => {
+                              return (
+                                <tr>
+                                  <td className="px-6 py-4 whitespace-nowrap">
+                                    <div className="text-sm font-medium text-black">
+                                      {item?.requestID}
+                                    </div>
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap">
+                                    <div className="text-md text-black">
+                                      {
+                                        vendors?.find(
+                                          (s) => s._id == item?.vendor_id
+                                        )?.vendorName
+                                      }
+                                    </div>
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap">
+                                    <span className="inline-flex px-2 py-1 leading-5 italic tracking-wider rounded-md bg-green-100 text-green-800">
+                                      {item?.status == "PENDING"
+                                        ? "PENDING"
+                                        : item?.status == "APPROVED"
+                                        ? "VERIFIED AND COMPLETED"
+                                        : "REJECTED"}
+                                    </span>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                      <nav
+                        className="flex justify-between items-center"
+                        aria-label="Pagination"
+                      >
+                        <p className="text-sm text-black">
+                          Showing{" "}
+                          <span className="font-medium">{data.length}</span> of{" "}
+                          <span className="font-medium">{data?.length}</span>{" "}
+                          results.
+                        </p>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+             </div>
+            </main>
+            <div>
+              <Chat />
             </div>
           </div>
-          <div>
-            <Chat />
-          </div>
         </div>
-       
-        
       )}
     </div>
   );
 }
 
-function ArrowRightIcon(props) {
+function ChevronRightIcon(props) {
   return (
     <svg
       {...props}
@@ -203,8 +251,7 @@ function ArrowRightIcon(props) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M5 12h14" />
-      <path d="m12 5 7 7-7 7" />
+      <path d="m9 18 6-6-6-6" />
     </svg>
   );
 }

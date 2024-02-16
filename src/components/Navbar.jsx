@@ -43,11 +43,12 @@ const Navbar = () => {
 
   return (
     <div>
-      <nav className="bg-white flex justify-between items-center px-4 py-4 shadow-md">
+      <nav className="bg-white flex justify-between items-center px-4 py-5 shadow-md ">
         <div>
+        <ShieldCheckIcon className="h- w-5 inline ml-10"/>
           <a href="/dashboard">
             {" "}
-            <span className="text-xl font-bold text-gray-800 ml-10">
+            <span className="text-xl font-bold text-gray-800 italic tracking-wider ">
               Risk Compliance 
             </span>
           </a>
@@ -61,7 +62,7 @@ const Navbar = () => {
               {isOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg">
                   <ul>
-                    <li className="py-2 px-4 hover:bg-gray-100"><img src={settingIcon} alt="Setting-icon" className="h-4 w-4 mr-2 inline"/>Settings</li>
+                    <li className="py-2 px-4 hover:bg-gray-100" ><img src={settingIcon} alt="Setting-icon" className="h-4 w-4 mr-2 inline"/>Settings</li>
                     <li className="py-2 px-4 hover:bg-gray-100" onClick={navigateToContacts} ><img src={loginSvg} alt="Logout-icon" className="h-4 w-4 mr-2 inline"/> Logout</li>
                   </ul>
                 </div>
@@ -76,9 +77,30 @@ const Navbar = () => {
             </>
           )}
         </button>
+        
       </nav>
     </div>
   );
 };
+
+function ShieldCheckIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  );
+}
 
 export default Navbar;

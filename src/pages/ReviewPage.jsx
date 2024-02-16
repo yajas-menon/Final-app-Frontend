@@ -21,10 +21,12 @@ function ReviewPage() {
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(1);
       try {
         const result = await axios
           .get("http://localhost:8000/api/auth/get/vendors")
           .catch((err) => {
+            setLoading(0);
             console.log(err);
           });
         setVendors(result.data);
@@ -32,6 +34,7 @@ function ReviewPage() {
         const result1 = await axios
           .get("http://localhost:8000/api/auth/get/Template")
           .catch((err) => {
+            setLoading(0);
             console.log(err);
           });
 
@@ -54,13 +57,16 @@ function ReviewPage() {
     if (!formData?.vendor_id || !formData?.template_id) {
       return alert("Please Select Vendors and Templates");
     }
-    const config = {
-      method: "get",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      url: `http://localhost:8000/api/auth/getuserstemplateWise?vendor_id=${formData?.vendor_id}&template_id=${formData?.template_id}`,
-    };
+   
+
+      const config = {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        url: `http://localhost:8000/api/auth/getuserstemplateWise?vendor_id=${formData?.vendor_id}&template_id=${formData?.template_id}`,
+      };
+    
 
     await axios(config)
       .then((res) => {
@@ -127,167 +133,186 @@ function ReviewPage() {
     window.open(URL.createObjectURL(blob), "_blank");
   }
 
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+  }, []);
+
   return (
     <div>
       <Navbar />
-
-      <div className="mx-10 my-5">
-        <a className="text-blue-600 hover:underline flex items-center space-x-1 mb-3">
-          <ChevronLeftIcon className="w-5 h-5" />
-          <button onClick={navigateBack} type="button" className="text-black">
-            <span>Back</span>
-          </button>
-        </a>
-        <div className="flex">
-          <select
-            id="vendor_id"
-            className="bg-gray-50  max-w-xs my-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            onChange={handleInputChange}
-          >
-            <option value="" selected disabled hidden>
-              Choose a UserName....
-            </option>
-            {vendors?.map((index, key) => (
-              <option value={index?._id}>
-                <td>{index.vendorName}</td>
-              </option>
-            ))}
-          </select>
-          <select
-            id="template_id"
-            className="bg-gray-50  max-w-xs mx-3 my-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            onChange={handleInputChange}
-          >
-            <option value="" selected disabled hidden>
-              Choose Template
-            </option>
-            {template
-              ?.filter((s) => s.vendorid == formData?.vendor_id)
-              ?.map((index, key) => (
-                <option value={index?._id}>
-                  <td>{index.templatename}</td>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div>
+          <div className="mx-10 my-5">
+            <a className="text-blue-600 hover:underline flex items-center space-x-1 mb-3">
+              <ChevronLeftIcon className="w-5 h-5" />
+              <button
+                onClick={navigateBack}
+                type="button"
+                className="text-black"
+              >
+                <span>Back</span>
+              </button>
+            </a>
+            <div className="flex">
+              <select
+                id="vendor_id"
+                className="bg-gray-50  max-w-xs my-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                onChange={handleInputChange}
+              >
+                <option value="" selected disabled hidden>
+                  Choose a UserName....
                 </option>
-              ))}
-          </select>
+                {vendors?.map((index, key) => (
+                  <option value={index?._id}>
+                    <td>{index.vendorName}</td>
+                  </option>
+                ))}
+              </select>
+              <select
+                id="template_id"
+                className="bg-gray-50  max-w-xs mx-3 my-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                onChange={handleInputChange}
+              >
+                <option value="" selected disabled hidden>
+                  Choose Template
+                </option>
+                {template
+                  ?.filter((s) => s.vendorid == formData?.vendor_id)
+                  ?.map((index, key) => (
+                    <option value={index?._id}>
+                      <td>{index.templatename}</td>
+                    </option>
+                  ))}
+              </select>
 
-          <button
-            type="button"
-            onClick={handleSubmit}
-            class="mt-10 h-10 rounded-full text-white bg-black hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          >
-            Submit
-          </button>
-        </div>
-        <table className="min-w-full divide-y divide-gray-200 ">
-          <thead>
-            <tr>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  break-words word-wrap"
+              <button
+                type="button"
+                onClick={handleSubmit}
+                class="mt-10 h-10 rounded-full text-white bg-black hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
               >
-                Questions
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Documents
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Template Name
-              </th>
+                Submit
+              </button>
+            </div>
+            <table className="min-w-full divide-y divide-gray-200 ">
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  break-words word-wrap"
+                  >
+                    Questions
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Documents
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Template Name
+                  </th>
 
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Submitted By
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Answers
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {user &&
-              user?.map((item, key) => {
-                return (
-                  <tr>
-                    <td className="px-6 py-4 whitespace-normal break-words word-wrap">
-                      {questions?.find((s) => s._id == item?.Question)?.text}
-                    </td>
-                    <td className="px-6 py-4 whitespace-normal break-words word-wrap">
-                      <a
-                        onClick={() => {
-                          const semicolonIndex = item?.EvidenceBinary.indexOf(
-                            ";"
-                          );
-                          const semicolonIndex1 = item?.EvidenceBinary.indexOf(
-                            ","
-                          );
-                          const result = item?.EvidenceBinary.slice(
-                            5,
-                            semicolonIndex
-                          );
-                          showDocument(
-                            item?.EvidenceBinary.slice(
-                              semicolonIndex1 + 1,
-                              item?.EvidenceBinary?.length
-                            ),
-                            result
-                          );
-                        }}
-                      >
-                        View
-                      </a>{" "}
-                    </td>
-                    <td className="px-6 py-4 whitespace-normal break-words words-wrap">
-                      {
-                        template?.find((s) => s._id == item?.template_id)
-                          ?.templatename
-                      }
-                    </td>
-                    <td className="px-6 py-4 whitespace-normal break-words words-wrap">
-                      {item?.userName}
-                    </td>
-                    <td className="px-6 py-4 whitespace-normal break-words words-wrap">
-                      {item?.answer}
-                    </td>
-                  </tr>
-                );
-              })}
-            {/* Additional rows */}
-          </tbody>
-        </table>
-        {user?.length > 0 &&
-        requests?.filter((s) => s.status == "PENDING")?.length > 0 ? (
-          <div className="flex justify-center inline my-10">
-            <button
-              type="button"
-              onClick={() => {
-                handleEdit("APPROVED");
-              }}
-              class="rounded-full text-white bg-black hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            >
-              Accept
-            </button>
-            <button
-              onClick={() => {
-                handleEdit("DECLINED");
-              }}
-              className="bg-white h-10 flex hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-            >
-              Reject
-            </button>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Submitted By
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Answers
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {user &&
+                  user?.map((item, key) => {
+                    return (
+                      <tr>
+                        <td className="px-6 py-4 whitespace-normal break-words word-wrap">
+                          {
+                            questions?.find((s) => s._id == item?.Question)
+                              ?.text
+                          }
+                        </td>
+                        <td className="px-6 py-4 whitespace-normal break-words word-wrap">
+                          <a
+                            onClick={() => {
+                              const semicolonIndex = item?.EvidenceBinary.indexOf(
+                                ";"
+                              );
+                              const semicolonIndex1 = item?.EvidenceBinary.indexOf(
+                                ","
+                              );
+                              const result = item?.EvidenceBinary.slice(
+                                5,
+                                semicolonIndex
+                              );
+                              showDocument(
+                                item?.EvidenceBinary.slice(
+                                  semicolonIndex1 + 1,
+                                  item?.EvidenceBinary?.length
+                                ),
+                                result
+                              );
+                            }}
+                          >
+                            View
+                          </a>{" "}
+                        </td>
+                        <td className="px-6 py-4 whitespace-normal break-words words-wrap">
+                          {
+                            template?.find((s) => s._id == item?.template_id)
+                              ?.templatename
+                          }
+                        </td>
+                        <td className="px-6 py-4 whitespace-normal break-words words-wrap">
+                          {item?.userName}
+                        </td>
+                        <td className="px-6 py-4 whitespace-normal break-words words-wrap">
+                          {item?.answer}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                {/* Additional rows */}
+              </tbody>
+            </table>
+            {user?.length > 0 &&
+            requests?.filter((s) => s.status == "PENDING")?.length > 0 ? (
+              <div className="flex justify-center inline my-10">
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleEdit("APPROVED");
+                  }}
+                  class="rounded-full text-white bg-black hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                >
+                  Accept
+                </button>
+                <button
+                  onClick={() => {
+                    handleEdit("DECLINED");
+                  }}
+                  className="bg-white h-10 flex hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                >
+                  Reject
+                </button>
+              </div>
+            ) : null}
           </div>
-        ) : null}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
