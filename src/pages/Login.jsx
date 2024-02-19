@@ -81,7 +81,7 @@ const Login = () => {
             </h1>
             {mode === "register" && (
               <div className="mb-4">
-                <label className="block mb-2" htmlFor="name">
+                <label className="block mb-2 " htmlFor="name">
                   Name:
                 </label>
                 <input

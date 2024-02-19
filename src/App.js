@@ -12,8 +12,10 @@ import ReviewPage from "./pages/ReviewPage";
 import AdminPage from "./pages/AdminPage";
 import FetchUser from "./pages/FetchUser";
 import Dashboard1 from './pages/Dashboard1';
+// import { useEffect, useState } from "react";
 
 function App() {
+
   return (
     <Router>
       <Routes>

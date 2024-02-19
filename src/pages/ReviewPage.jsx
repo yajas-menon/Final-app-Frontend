@@ -245,7 +245,7 @@ function ReviewPage() {
                               ?.text
                           }
                         </td>
-                        <td className="px-6 py-4 whitespace-normal break-words word-wrap">
+                        <td className="px-6 py-4 whitespace-normal break-words word-wrap cursor-pointer">
                           <a
                             onClick={() => {
                               const semicolonIndex = item?.EvidenceBinary.indexOf(

@@ -1,5 +1,5 @@
 import react, { useEffect, useRef, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import loginSvg from "../assets/login-icon.svg"
 import userIcon from "../assets/user-icon.svg";
 import settingIcon from "../assets/settings-icon.svg";
@@ -45,10 +45,10 @@ const Navbar = () => {
     <div>
       <nav className="bg-white flex justify-between items-center px-4 py-5 shadow-md ">
         <div>
-        <ShieldCheckIcon className="h- w-5 inline ml-10"/>
+        <ShieldCheckIcon className=" mr-3 inline ml-10"/>
           <a href="/dashboard">
             {" "}
-            <span className="text-xl font-bold text-gray-800 italic tracking-wider ">
+            <span className="text-3xl font-bold font-lato text-gray-800">
               Risk Compliance 
             </span>
           </a>
@@ -88,8 +88,8 @@ function ShieldCheckIcon(props) {
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
+      width="30px"
+      height="36px"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

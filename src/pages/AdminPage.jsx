@@ -63,7 +63,7 @@ const AdminPage = () => {
                 onClick={navigateToReviewPage}
                 className="bg-slate-800 text-white py-2 px-4 rounded-md hover:bg-slate-950"
               >
-                Access Review Page
+                Vendor Response Page
               </button>
             </div>
           </div>

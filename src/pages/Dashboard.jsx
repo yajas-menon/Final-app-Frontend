@@ -67,9 +67,8 @@ export default function Component() {
         <Loader size={30} loading={loading} />
       ) : (
         <div>
-         
+          
             <div className="mt-5 mr-12 text-right ">
-                
             <button
             type="button"
             onClick={navigateToContacts}
@@ -87,10 +86,10 @@ export default function Component() {
               <div className="bg-white rounded-lg shadow-md p-4 ">
                   <div className="flex flex-col md:flex-row  gap-4">
                     <div className="grid gap-1.5">
-                      <h2 className="text-lg font-semibold italic tracking-wider">
+                      <h2 className="text-xl font-bold font-nunito italic ">
                         High-Risk Vendors
                       </h2>
-                      <p className="text-sm">
+                      <p className="text-sm font-nunito">
                         Number of vendors with high-risk assessments
                       </p>
                     </div>
@@ -103,10 +102,10 @@ export default function Component() {
                <div className="bg-white rounded-lg shadow-md p-4">
                   <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
                     <div className="grid gap-1.5">
-                      <h2 className="text-lg font-semibold italic tracking-wide">
+                      <h2 className="text-xl font-bold font-nunito italic ">
                         Completed Assessments
                       </h2>
-                      <p className="text-sm">
+                      <p className="text-sm font-nunito">
                         Percentage of vendors with completed assessments
                       </p>
                     </div>
@@ -118,23 +117,23 @@ export default function Component() {
                 </div>
               </div>
               <div className="bg-white rounded-lg shadow-md p-4">
-                <h2 className="text-lg font-semibold">Responses Over Time</h2>
-                <p className="text-sm">
+                <h2 className="text-lg font-semibold font-lato">Responses Over Time</h2>
+                <p className="text-sm font-nunito">
                   Number of response given by vendors over the past 6 months
                 </p>
                 <BarGraph />
              </div>
               <div className="bg-white rounded-lg shadow-md p-4">
-                <h2 className="text-lg font-semibold">Risk Distribution</h2>
-                <p className="text-sm">
+                <h2 className="text-lg font-semibold font-lato">Risk Distribution</h2>
+                <p className="text-sm font-nunito">
                   Distribution of vendors by risk category
                 </p>
                 <LineC />
                 
               </div>
               <div className="bg-white rounded-lg shadow-md p-4">
-                <h2 className="text-lg font-semibold">Vendor List</h2>
-                <p className="text-sm">
+                <h2 className="text-lg font-semibold font-lato">Vendor List</h2>
+                <p className="text-sm font-nunito">
                   List of vendors with relevant information
                 </p>
                 <div>
@@ -198,7 +197,7 @@ export default function Component() {
                                     </div>
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className="inline-flex px-2 py-1 leading-5 italic tracking-wider rounded-md bg-green-100 text-green-800">
+                                    <span className="inline-flex px-2 py-1 leading-5 italic font-nunito rounded-md bg-green-100 text-green-800">
                                       {item?.status == "PENDING"
                                         ? "PENDING"
                                         : item?.status == "APPROVED"
