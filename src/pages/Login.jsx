@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
+import { updateUser } from "../Store/Slices/userSlice";
+import { useDispatch } from "react-redux";
+import actions from "../Store/actions";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,6 +13,7 @@ const Login = () => {
   const [mode, setMode] = useState("login");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setLoading(true);
@@ -52,7 +56,15 @@ const Login = () => {
     return await axios
       .post("http://localhost:8000/api/auth/login", { email, password })
       .then((response) => {
-        sessionStorage.setItem("jwtToken", response.data.accessToken);
+        console.log(response.data.data);
+        const obj = {
+          name: response.data.data.name,
+          email: response.data.data.email,
+          role: response.data.data.role,
+          questions: response.data.data.questions,
+        };
+        dispatch(actions.user.set(obj));
+        sessionStorage.setItem("jwtToken", response.data.data.accessToken);
         sessionStorage.setItem("user_id", response.data.data._id);
         sessionStorage.setItem("role", response.data.data.role);
         sessionStorage.setItem(
