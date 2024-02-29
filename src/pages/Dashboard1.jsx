@@ -1,10 +1,10 @@
 import React , {useState , useEffect} from "react";
 import axios from "axios";
-import { Route } from "react-router-dom";
-import Graphs from "../components/Graphs";
+
 import BarGraph from "../components/BarGraphs"
 import LineC from "../components/LineC";
 import Navbar from "../components/Navbar";
+
 
 export default function Component() {
     const [data, setData] = useState([]);
