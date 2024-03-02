@@ -226,16 +226,23 @@ const SubmitForm = () => {
 
   const handleSubmit = async () => {
     // setLoading(1);
-
+    console.log(formData);
     let questions = formData;
 
     let y = JSON.parse(JSON.stringify(questions));
+
     let imageData = [];
     let pdfData = [];
     let imageData1 = [];
     let pdfData1 = [];
     y?.forEach((item, key) => {
-      if (images.includes(item.EvidenceBinary.slice(5, 14))) {
+      let semicolonIndex = item.EvidenceBinary.indexOf(":");
+      let colonIndex = item.EvidenceBinary.indexOf(";");
+      let slicedValue = item.EvidenceBinary.slice(
+        semicolonIndex + 1,
+        colonIndex
+      );
+      if (images.includes(slicedValue)) {
         let newItem = JSON.parse(JSON.stringify(item));
         imageData1.push(newItem);
         item.EvidenceBinary = item?.EvidenceBinary?.split(",")[1];
