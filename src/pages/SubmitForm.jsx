@@ -4,11 +4,13 @@ import "./SubmitForm.css";
 import { BASE_URL } from "../utils/apiConst";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { useSelector } from "react-redux";
 import Loader from "../components/Loader";
 
 const SubmitForm = () => {
   const [formData, setFormData] = useState([]);
-  const [formData1, setFormData1] = useState([]);
+  let user1 = useSelector((state) => state.userData);
+  let images = ["image/png", "image/jpeg", "image/jpg"];
   const locate = useLocation();
   const [NewQuestions, setNewQuestions] = useState([]);
   const [user, setUser] = useState([]);
@@ -48,7 +50,6 @@ const SubmitForm = () => {
         )}`,
       })
         .then((res) => {
-          console.log(res.data.data);
           setUser(res.data.data);
           setLoading(0);
         })
@@ -114,71 +115,153 @@ const SubmitForm = () => {
     setFormData(updatedFormData);
   };
 
+  const MainApi = async (questions) => {
+    return new Promise(async (resolve, reject) => {
+      const config1 = {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        url: `${BASE_URL}/api/auth/addAnswers/${sessionStorage.getItem(
+          "user_id"
+        )}?template_id=${locate?.state?.template_id}&vendor_id=${
+          locate?.state?.vendor_id
+        }&requestID=${params.requestId}`,
+        data: questions,
+      };
+
+      await axios(config1)
+        .then(async (res) => {
+          console.log(res);
+          await fetchData();
+          alert("Successfully Updated Details");
+          setLoading(0);
+          resolve(res);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(0);
+          reject(err);
+        });
+    });
+  };
+
+  const ImageAPI = async (questions, questions1, x) => {
+    return new Promise(async (resolve, reject) => {
+      let url = "http://127.0.0.1:5000/make_request_jpg";
+      const config = {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        url: url,
+        data: questions,
+      };
+      await axios(config)
+        .then(async (res) => {
+          console.log(res);
+          questions1?.forEach((item, index) => {
+            item.Answer = res.data?.find(
+              (s) => s.Question == item?.Question
+            )?.Answer;
+            item.status = "ACTIVE";
+          });
+          if (x) {
+            await MainApi(questions1)
+              .then((res1) => {
+                resolve(res);
+              })
+              .catch((err) => {
+                reject(err);
+              });
+          } else {
+            resolve(res);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  };
+
+  const pdfAPI = async (questions, questions1, x) => {
+    return new Promise(async (resolve, reject) => {
+      let url = "http://127.0.0.1:5000/make_request";
+      const config = {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        url: url,
+        data: questions,
+      };
+      await axios(config)
+        .then(async (res) => {
+          console.log(res);
+          questions1?.forEach((item, index) => {
+            item.Answer = res.data?.find(
+              (s) => s.Question == item?.Question
+            )?.Answer;
+            item.status = "ACTIVE";
+          });
+          if (x) {
+            await MainApi(questions1)
+              .then((res1) => {
+                resolve(res);
+              })
+              .catch((err) => {
+                reject(err);
+              });
+          } else {
+            resolve(res);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  };
+
   const handleSubmit = async () => {
     // setLoading(1);
-    let x = JSON.parse(sessionStorage.getItem("questions"));
-    if (x?.length > 0) {
-      x = [...x, ...formData];
-    } else {
-      x = formData;
-    }
-    let questions = x;
 
-    let y = JSON.parse(JSON.stringify(x));
+    let questions = formData;
+
+    let y = JSON.parse(JSON.stringify(questions));
+    let imageData = [];
+    let pdfData = [];
+    let imageData1 = [];
+    let pdfData1 = [];
     y?.forEach((item, key) => {
-      item.EvidenceBinary = item?.EvidenceBinary?.split(",")[1];
+      if (images.includes(item.EvidenceBinary.slice(5, 14))) {
+        let newItem = JSON.parse(JSON.stringify(item));
+        imageData1.push(newItem);
+        item.EvidenceBinary = item?.EvidenceBinary?.split(",")[1];
+        imageData.push(item);
+      } else {
+        let newItem = JSON.parse(JSON.stringify(item));
+        pdfData1.push(newItem);
+        item.EvidenceBinary = item?.EvidenceBinary?.split(",")[1];
+        pdfData.push(item);
+      }
     });
 
-    //Api for ML Model
-    let url = "http://127.0.0.1:5000/make_request";
-    const config = {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      url: url,
-      data: y,
-    };
-
-    await axios(config)
-      .then(async (res) => {
-        console.log(res.data);
-        questions?.forEach((item, index) => {
-          item.Answer = res.data?.find(
-            (s) => s.Question == item?.Question
-          )?.Answer;
-          item.status = "ACTIVE";
-        });
-
-        const config1 = {
-          method: "put",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          url: `${BASE_URL}/api/auth/addAnswers/${sessionStorage.getItem(
-            "user_id"
-          )}?template_id=${locate?.state?.template_id}&vendor_id=${
-            locate?.state?.vendor_id
-          }&requestID=${params.requestId}`,
-          data: questions,
-        };
-
-        await axios(config1)
-          .then(async (res) => {
-            console.log(res);
-            await fetchData();
-            alert("Successfully Updated Details");
-            setLoading(0);
-          })
-          .catch((err) => {
-            console.log(err);
-            setLoading(0);
-          });
-      })
-      .catch((err) => {
-        setLoading(0);
+    if (imageData?.length > 0 && pdfData?.length > 0) {
+      await Promise.allSettled([
+        ImageAPI(imageData, imageData1, 1),
+        pdfAPI(pdfData, pdfData1, 1),
+      ]);
+    } else if (pdfData?.length > 0) {
+      await pdfAPI(pdfData, pdfData1, 1).catch((err) => {
         console.log(err);
       });
+    } else if (imageData?.length > 0) {
+      await ImageAPI(imageData, imageData1, 1).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   function showDocument(_base64Str, _contentType) {
@@ -233,7 +316,7 @@ const SubmitForm = () => {
                   <td>
                     <input
                       type="file"
-                      accept=".pdf, .doc , .docx , .txt"
+                      accept=".pdf, .doc , .docx , .txt,.png,.jpeg,.jpg"
                       onChange={(e) =>
                         handleFileUpload(e, index, question?._id)
                       }
