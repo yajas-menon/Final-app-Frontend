@@ -57,16 +57,13 @@ function ReviewPage() {
     if (!formData?.vendor_id || !formData?.template_id) {
       return alert("Please Select Vendors and Templates");
     }
-   
-
-      const config = {
-        method: "get",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        url: `http://localhost:8000/api/auth/getuserstemplateWise?vendor_id=${formData?.vendor_id}&template_id=${formData?.template_id}`,
-      };
-    
+    const config = {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      url: `http://localhost:8000/api/auth/getuserstemplateWise?vendor_id=${formData?.vendor_id}&template_id=${formData?.template_id}`,
+    };
 
     await axios(config)
       .then((res) => {
@@ -100,7 +97,8 @@ function ReviewPage() {
     setRequests(result2.data.data);
   };
 
-  const handleEdit = async (status) => {
+  const handleEdit = async (user_id, user_question_id, template_id, status) => {
+    let obj = {};
     const config = {
       method: "post",
       headers: {

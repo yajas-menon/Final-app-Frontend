@@ -305,39 +305,46 @@ const SubmitForm = () => {
               {NewQuestions.map((question, index) => (
                 <tr key={index}>
                   <td>{question.text}</td>
-                  <td>
-                    <input
-                      type="text"
-                      value={
-                        formData[index]?.comment ||
-                        user?.questions?.find(
-                          (s) => s.question_id == question?._id
-                        )?.comment ||
-                        ""
-                      }
-                      onChange={(e) =>
-                        handleInputChange(e, index, question?._id)
-                      }
-                      required
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="file"
-                      accept=".pdf, .doc , .docx , .txt,.png,.jpeg"
-                      onChange={(e) =>
-                        handleFileUpload(e, index, question?._id)
-                      }
-                      onDone
-                      className="border-none text-sm text-grey-500
+                  {user?.questions?.find((s) => s.question_id == question?._id)
+                    ?.status == "REJECTED" ? (
+                    <>
+                      <td>
+                        <input
+                          type="text"
+                          value={
+                            formData[index]?.comment ||
+                            user?.questions?.find(
+                              (s) => s.question_id == question?._id
+                            )?.comment ||
+                            ""
+                          }
+                          onChange={(e) =>
+                            handleInputChange(e, index, question?._id)
+                          }
+                          required
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="file"
+                          accept=".pdf, .doc , .docx , .txt,.png,.jpeg"
+                          onChange={(e) =>
+                            handleFileUpload(e, index, question?._id)
+                          }
+                          onDone
+                          className="border-none text-sm text-grey-500
                     file:mr-5 file:py-2 file:px-6
                     file:rounded-full file:border-0
                     file:text-sm file:font-medium
                     file:bg-blue-50 file:text-blue-700
                     hover:file:cursor-pointer hover:file:bg-amber-50
                     hover:file:text-amber-700"
-                    />
-                  </td>
+                        />
+                      </td>
+                    </>
+                  ) : (
+                    "You have already submitted the question"
+                  )}
                   <td>
                     {user?.questions?.find(
                       (s) => s.question_id == question?._id
