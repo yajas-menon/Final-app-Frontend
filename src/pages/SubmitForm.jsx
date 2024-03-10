@@ -36,6 +36,7 @@ const SubmitForm = () => {
         url: `${BASE_URL}/api/auth/get/questions?template_id=${locate?.state?.template_id}&vendor_id=${locate?.state?.vendor_id}`,
       })
         .then((res) => {
+          console.log(res.data);
           setNewQuestions(res.data);
         })
         .catch((err) => {
@@ -50,6 +51,7 @@ const SubmitForm = () => {
         )}`,
       })
         .then((res) => {
+          console.log(res.data.data);
           setUser(res.data.data);
           setLoading(0);
         })
@@ -225,8 +227,7 @@ const SubmitForm = () => {
   };
 
   const handleSubmit = async () => {
-    setLoading(1);
-    console.log(formData);
+    // setLoading(1);
     let questions = formData;
 
     let y = JSON.parse(JSON.stringify(questions));
@@ -236,9 +237,9 @@ const SubmitForm = () => {
     let imageData1 = [];
     let pdfData1 = [];
     y?.forEach((item, key) => {
-      let semicolonIndex = item.EvidenceBinary.indexOf(":");
-      let colonIndex = item.EvidenceBinary.indexOf(";");
-      let slicedValue = item.EvidenceBinary.slice(
+      let semicolonIndex = item.EvidenceBinary?.indexOf(":");
+      let colonIndex = item.EvidenceBinary?.indexOf(";");
+      let slicedValue = item.EvidenceBinary?.slice(
         semicolonIndex + 1,
         colonIndex
       );
@@ -342,40 +343,47 @@ const SubmitForm = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {NewQuestions.map((question, index) => (
                 <tr key={index}>
-                  <td className="px-6 py-4 whitespace-normal break-words word-wrap">{question.text}</td>
-                  <td>
-                    <input
-                      type="text"
-                      value={
-                        formData[index]?.comment ||
-                        user?.questions?.find(
-                          (s) => s.question_id == question?._id
-                        )?.comment ||
-                        ""
-                      }
-                      onChange={(e) =>
-                        handleInputChange(e, index, question?._id)
-                      }
-                      required
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="file"
-                      accept=".pdf, .doc , .docx , .txt,.png,.jpeg,.jpg"
-                      onChange={(e) =>
-                        handleFileUpload(e, index, question?._id)
-                      }
-                      onDone
-                      className="border-none text-sm text-grey-500
+                  <td>{question.text}</td>
+                  {user?.questions?.find((s) => s.question_id == question?._id)
+                    ?.status == "REJECTED" ? (
+                    <>
+                      <td>
+                        <input
+                          type="text"
+                          value={
+                            formData[index]?.comment ||
+                            user?.questions?.find(
+                              (s) => s.question_id == question?._id
+                            )?.comment ||
+                            ""
+                          }
+                          onChange={(e) =>
+                            handleInputChange(e, index, question?._id)
+                          }
+                          required
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="file"
+                          accept=".pdf, .doc , .docx , .txt,.png,.jpeg"
+                          onChange={(e) =>
+                            handleFileUpload(e, index, question?._id)
+                          }
+                          onDone
+                          className="border-none text-sm text-grey-500
                     file:mr-5 file:py-2 file:px-6
                     file:rounded-full file:border-0
                     file:text-sm file:font-medium
                     file:bg-blue-50 file:text-blue-700
                     hover:file:cursor-pointer hover:file:bg-amber-50
                     hover:file:text-amber-700"
-                    />
-                  </td>
+                        />
+                      </td>
+                    </>
+                  ) : (
+                    "You have already submitted the question"
+                  )}
                   <td>
                     {user?.questions?.find(
                       (s) => s.question_id == question?._id
