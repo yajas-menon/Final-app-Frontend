@@ -36,6 +36,7 @@ const SubmitForm = () => {
         url: `${BASE_URL}/api/auth/get/questions?template_id=${locate?.state?.template_id}&vendor_id=${locate?.state?.vendor_id}`,
       })
         .then((res) => {
+          console.log(res.data);
           setNewQuestions(res.data);
         })
         .catch((err) => {
@@ -50,6 +51,7 @@ const SubmitForm = () => {
         )}`,
       })
         .then((res) => {
+          console.log(res.data.data);
           setUser(res.data.data);
           setLoading(0);
         })
@@ -226,7 +228,6 @@ const SubmitForm = () => {
 
   const handleSubmit = async () => {
     // setLoading(1);
-    console.log(formData);
     let questions = formData;
 
     let y = JSON.parse(JSON.stringify(questions));
@@ -236,9 +237,9 @@ const SubmitForm = () => {
     let imageData1 = [];
     let pdfData1 = [];
     y?.forEach((item, key) => {
-      let semicolonIndex = item.EvidenceBinary.indexOf(":");
-      let colonIndex = item.EvidenceBinary.indexOf(";");
-      let slicedValue = item.EvidenceBinary.slice(
+      let semicolonIndex = item.EvidenceBinary?.indexOf(":");
+      let colonIndex = item.EvidenceBinary?.indexOf(";");
+      let slicedValue = item.EvidenceBinary?.slice(
         semicolonIndex + 1,
         colonIndex
       );
