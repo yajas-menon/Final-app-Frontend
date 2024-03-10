@@ -5,6 +5,8 @@ import { BASE_URL } from "../utils/apiConst";
 import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
 import Graphs from "../components/Graphs";
+import BarGraph from "../components/BarGraphs";
+import LineC from "../components/LineC";
 
 const AdminPage = () => {
   const [loading, setLoading] = useState(false);
@@ -70,14 +72,68 @@ const AdminPage = () => {
           <hr className="divide-y divide-solid divide-inherit mt-4 " />
         </div>
         </div>
-         
-         <div>
+        <div>
+          </div>
 
-             <Graphs />
-
-         </div>
+        <div className="flex flex-col min-h-screen mx-10 my-5">
+          
+          <main className="flex-1 p-4 flex flex-col gap-4">
+          
+            <div className="grid gap-4 md:grid-cols-2">
+            
+            <div className="bg-white rounded-lg shadow-md p-4 ">
+                <div className="flex flex-col md:flex-row  gap-4">
+                  <div className="grid gap-1.5">
+                    <h2 className="text-xl font-bold font-nunito italic ">
+                      High-Risk Vendors
+                    </h2>
+                    <p className="text-sm font-nunito">
+                      Number of vendors with high-risk assessments
+                    </p>
+                  </div>
+                </div>
+                <div className="font-bold font-mono">
+                  42
+                  <span className="lowercase">%</span>
+                </div>
+             </div>
+             <div className="bg-white rounded-lg shadow-md p-4">
+                <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+                  <div className="grid gap-1.5">
+                    <h2 className="text-xl font-bold font-nunito italic ">
+                      Completed Assessments
+                    </h2>
+                    <p className="text-sm font-nunito">
+                      Percentage of vendors with completed assessments
+                    </p>
+                  </div>
+                </div>
+                <div className="font-bold font-mono">
+                  78
+                  <span className="lowercase">%</span>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-lg shadow-md p-4">
+              <h2 className="text-lg font-semibold font-lato">Responses Over Time</h2>
+              <p className="text-sm font-nunito">
+                Number of response given by vendors over the past 6 months
+              </p>
+              <BarGraph />
+           </div>
+            <div className="bg-white rounded-lg shadow-md p-4">
+              <h2 className="text-lg font-semibold font-lato">Risk Distribution</h2>
+              <p className="text-sm font-nunito">
+                Distribution of vendors by risk category
+              </p>
+              <LineC />
+              
+            </div>
+        </main>
         </div>
-
+        
+        </div>
+        
       )}
     </div>
   );

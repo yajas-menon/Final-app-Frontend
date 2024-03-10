@@ -57,16 +57,14 @@ function ReviewPage() {
     if (!formData?.vendor_id || !formData?.template_id) {
       return alert("Please Select Vendors and Templates");
     }
-   
 
-      const config = {
-        method: "get",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        url: `http://localhost:8000/api/auth/getuserstemplateWise?vendor_id=${formData?.vendor_id}&template_id=${formData?.template_id}`,
-      };
-    
+    const config = {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      url: `http://localhost:8000/api/auth/getuserstemplateWise?vendor_id=${formData?.vendor_id}&template_id=${formData?.template_id}`,
+    };
 
     await axios(config)
       .then((res) => {
@@ -198,7 +196,7 @@ function ReviewPage() {
                 Submit
               </button>
             </div>
-            <table className="min-w-full divide-y divide-gray-200 ">
+            <table className="min-w-full divide-y divide-gray-200">
               <thead>
                 <tr>
                   <th
@@ -231,6 +229,12 @@ function ReviewPage() {
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Answers
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Action
                   </th>
                 </tr>
               </thead>
@@ -282,10 +286,28 @@ function ReviewPage() {
                         <td className="px-6 py-4 whitespace-normal break-words words-wrap">
                           {item?.answer}
                         </td>
+                        <div className="flex justify-center inline my-10">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              handleEdit("APPROVED");
+                            }}
+                            class="rounded-full text-white bg-black hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                          >
+                            Accept
+                          </button>
+                          <button
+                            onClick={() => {
+                              handleEdit("DECLINED");
+                            }}
+                            className="bg-white h-10 flex hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                          >
+                            Reject
+                          </button>
+                        </div>
                       </tr>
                     );
                   })}
-                {/* Additional rows */}
               </tbody>
             </table>
             {user?.length > 0 &&
