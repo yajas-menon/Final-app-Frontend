@@ -342,7 +342,10 @@ const SubmitForm = () => {
               {NewQuestions.map((question, index) => (
                 <tr key={index}>
                   <td>{question.text}</td>
-                  {user?.questions?.find((s) => s.question_id == question?._id)
+                  {user?.questions?.filter(
+                    (s) => s.question_id == question?._id
+                  )?.length == 0 ||
+                  user?.questions?.find((s) => s.question_id == question?._id)
                     ?.status == "REJECTED" ? (
                     <>
                       <td>
@@ -413,6 +416,9 @@ const SubmitForm = () => {
                         View
                       </button>
                     ) : null}
+                  </td>
+                  <td>
+                    {question?.status ? question?.status : "Not Uploaded"}
                   </td>
                 </tr>
               ))}
