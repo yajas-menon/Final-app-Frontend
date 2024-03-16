@@ -346,7 +346,7 @@ const SubmitForm = () => {
                     (s) => s.question_id == question?._id
                   )?.length == 0 ||
                   user?.questions?.find((s) => s.question_id == question?._id)
-                    ?.status == "REJECTED" ? (
+                    ?.status == "DECLINED" ? (
                     <>
                       <td>
                         <input
