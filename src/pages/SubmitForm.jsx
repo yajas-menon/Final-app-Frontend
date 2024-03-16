@@ -161,12 +161,12 @@ const SubmitForm = () => {
       };
       await axios(config)
         .then(async (res) => {
-          console.log(res);
           questions1?.forEach((item, index) => {
             item.Answer = res.data?.find(
               (s) => s.Question == item?.Question
             )?.Answer;
             item.status = "ACTIVE";
+            item.template_id = locate?.state?.template_id;
           });
           if (x) {
             await MainApi(questions1)
@@ -206,6 +206,7 @@ const SubmitForm = () => {
               (s) => s.Question == item?.Question
             )?.Answer;
             item.status = "ACTIVE";
+            item.template_id = locate?.state?.template_id;
           });
           if (x) {
             await MainApi(questions1)
@@ -299,47 +300,44 @@ const SubmitForm = () => {
             documents if required
           </p>
           <hr className="divide-y divide-solid divide-inherit mt-4 mx-10 " />
-         
+
           <table className="mx-10 my-6 divide-y divide-gray-200">
-          <thead>
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  break-words word-wrap"
-                  >
-                    Questions
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Answers
-                  </th>
-                 
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  break-words word-wrap"
+                >
+                  Questions
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Answers
+                </th>
 
-                  
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Documents
-                  </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Documents
+                </th>
 
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    View 
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Status
-                  </th>
-                 
-                </tr>
-              </thead>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  View
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Status
+                </th>
+              </tr>
+            </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {NewQuestions.map((question, index) => (
                 <tr key={index}>

@@ -93,7 +93,6 @@ function ReviewPage() {
       .catch((err) => {
         console.log(err);
       });
-    console.log(result2.data);
     setRequests(result2.data.data);
   };
 
@@ -104,9 +103,11 @@ function ReviewPage() {
       headers: {
         "Content-Type": "application/json",
       },
-      url: `http://localhost:8000/api/auth/updateRequests`,
+      url: `http://localhost:8000/api/auth/updateRequests1`,
       data: {
-        data: requests,
+        user_id: user_id,
+        user_question_id: user_question_id,
+        template_id: template_id,
         status: status,
       },
     };
@@ -116,6 +117,7 @@ function ReviewPage() {
         console.log(res);
         alert("Successfully Updated Details");
         getRequests();
+        handleSubmit();
       })
       .catch((err) => {
         console.log(err);
@@ -290,7 +292,12 @@ function ReviewPage() {
                           <button
                             type="button"
                             onClick={() => {
-                              handleEdit("APPROVED");
+                              handleEdit(
+                                item?.user_id,
+                                item?.user_question_id,
+                                item?.template_id,
+                                "APPROVED"
+                              );
                             }}
                             class="rounded-full text-white bg-black hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                           >
@@ -298,7 +305,12 @@ function ReviewPage() {
                           </button>
                           <button
                             onClick={() => {
-                              handleEdit("DECLINED");
+                              handleEdit(
+                                item?.user_id,
+                                item?.user_question_id,
+                                item?.template_id,
+                                "DECLINED"
+                              );
                             }}
                             className="bg-white h-10 flex hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
                           >
@@ -310,7 +322,8 @@ function ReviewPage() {
                   })}
               </tbody>
             </table>
-            {user?.length > 0 &&
+
+            {/* {user?.length > 0 &&
             requests?.filter((s) => s.status == "PENDING")?.length > 0 ? (
               <div className="flex justify-center inline my-10">
                 <button
@@ -331,7 +344,7 @@ function ReviewPage() {
                   Reject
                 </button>
               </div>
-            ) : null}
+            ) : null} */}
           </div>
         </div>
       )}
