@@ -166,6 +166,12 @@ const SubmitForm = () => {
               (s) => s.Question == item?.Question
             )?.Answer;
             item.status = "ACTIVE";
+            item.RequestID = user?.questions?.find(
+              (s) => s.question_id == item?.question_id
+            )
+              ? user?.questions?.find((s) => s.question_id == item?.question_id)
+                  ?.RequestID
+              : params.requestId;
             item.template_id = locate?.state?.template_id;
           });
           if (x) {
@@ -205,6 +211,12 @@ const SubmitForm = () => {
             item.Answer = res.data?.find(
               (s) => s.Question == item?.Question
             )?.Answer;
+            item.RequestID = user?.questions?.find(
+              (s) => s.question_id == item?.question_id
+            )
+              ? user?.questions?.find((s) => s.question_id == item?.question_id)
+                  ?.RequestID
+              : params.requestId;
             item.status = "ACTIVE";
             item.template_id = locate?.state?.template_id;
           });
@@ -383,7 +395,10 @@ const SubmitForm = () => {
                       </td>
                     </>
                   ) : (
-                    "You have already submitted the question"
+                    <>
+                      <td>You have already submitted the question</td>
+                      <td></td>
+                    </>
                   )}
                   <td>
                     {user?.questions?.find(
@@ -413,12 +428,22 @@ const SubmitForm = () => {
                           );
                         }}
                       >
-                        View
+                        {user?.questions?.find(
+                          (s) => s.question_id == question?._id
+                        )?.status == "DECLINED"
+                          ? "View Previously Uploaded Document"
+                          : "View"}
                       </button>
                     ) : null}
                   </td>
                   <td>
-                    {question?.status ? question?.status : "Not Uploaded"}
+                    {user?.questions?.find(
+                      (s) => s.question_id == question?._id
+                    )?.status
+                      ? user?.questions?.find(
+                          (s) => s.question_id == question?._id
+                        )?.status
+                      : "Not Uploaded"}
                   </td>
                 </tr>
               ))}
