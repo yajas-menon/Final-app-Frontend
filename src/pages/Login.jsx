@@ -63,14 +63,14 @@ const Login = () => {
           role: response.data.data.role,
           questions: response.data.data.questions,
         };
-        dispatch(actions.user.set(obj));
+        // dispatch(actions.user.set(obj));
         sessionStorage.setItem("jwtToken", response.data.data.accessToken);
         sessionStorage.setItem("user_id", response.data.data._id);
         sessionStorage.setItem("role", response.data.data.role);
-        sessionStorage.setItem(
-          "questions",
-          JSON.stringify(response.data.data?.questions)
-        );
+        // sessionStorage.setItem(
+        //   "questions",
+        //   JSON.stringify(response.data.data?.questions)
+        // );
         if (response.data.data.role == "Admin")
           window.location.href = "/AdminPage";
         else window.location.href = "/dashboard";

@@ -12,6 +12,7 @@ import ReviewPage from "./pages/ReviewPage";
 import AdminPage from "./pages/AdminPage";
 import FetchUser from "./pages/FetchUser";
 import Dashboard1 from './pages/Dashboard1';
+import HomePage from "./pages/HomePage";
 // import { useEffect, useState } from "react";
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Login />}></Route>
+        <Route exact path="/" element={<HomePage />}></Route>
+        <Route exact path="/login" element={<Login />}></Route>
         <Route exact path="/QuestionForm" element={<QuestionForm />}></Route>
         <Route exact path="/dashboard" element={<Dashboard />}></Route>
         <Route exact path="/VendorList" element={<VendorList />}></Route>

@@ -73,7 +73,7 @@ export default function Component() {
             type="button"
             onClick={navigateToContacts}
             class="  h-10  rounded-full text-white bg-slate-600 hover:bg-black focus:ring-4 focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-black dark:hover:bg-black focus:outline-none dark:focus:ring-black"
-          >
+            >
            Add Request
           </button>
           </div>
@@ -151,7 +151,7 @@ export default function Component() {
                             name="q"
                             className="block appearance-none w-full bg-gray-200 border border-gray-200 text-base leading-normal pl-10 pr-3 py-2 rounded-xl relative mb-4 mt-1 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:z-10"
                             placeholder="Search"
-                          />
+                            />
                         </div>
                       </div>
                       <table className="min-w-full divide-y divide-gray-200">
@@ -166,13 +166,13 @@ export default function Component() {
                             <th
                               scope="col"
                               className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider"
-                            >
+                              >
                               Raised For
                             </th>
                             <th
                               scope="col"
                               className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider"
-                            >
+                              >
                               Compliance Request Status
                             </th>
                           </tr>
@@ -231,6 +231,7 @@ export default function Component() {
             </div>
           </div>
         </div>
+      
       )}
     </div>
   );

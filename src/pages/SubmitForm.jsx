@@ -240,7 +240,7 @@ const SubmitForm = () => {
   };
 
   const handleSubmit = async () => {
-    // setLoading(1);
+    setLoading(1);
     let questions = formData;
 
     let y = JSON.parse(JSON.stringify(questions));
@@ -307,7 +307,7 @@ const SubmitForm = () => {
         <Loader />
       ) : (
         <div className="container mt-4">
-          <p className="text-gray-600 mb-4 font-bold mt-6 mx-10">
+          <p className="text-gray-600 mb-4 font-bold mt-10 mx-10">
             Please fill the answers for each of the questions and upload the
             documents if required
           </p>
@@ -350,7 +350,7 @@ const SubmitForm = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            {/* <tbody className="bg-white divide-y divide-gray-200">
               {NewQuestions.map((question, index) => (
                 <tr key={index}>
                   <td>{question.text}</td>
@@ -379,7 +379,7 @@ const SubmitForm = () => {
                       <td>
                         <input
                           type="file"
-                          accept=".pdf, .doc , .docx , .txt,.png,.jpeg"
+                          accept=".pdf, .doc , .docx , .txt,.png,.jpeg , .jpg"
                           onChange={(e) =>
                             handleFileUpload(e, index, question?._id)
                           }
@@ -447,6 +447,88 @@ const SubmitForm = () => {
                   </td>
                 </tr>
               ))}
+            </tbody> */}
+            <tbody className="bg-white divide-y divide-gray-200">
+              {NewQuestions.map((question, index) => {
+                const declinedQuestion = user?.questions?.find(
+                  (s) => s.question_id == question?._id
+                );
+
+                if (
+                  !declinedQuestion ||
+                  declinedQuestion.status === "DECLINED"
+                ) {
+                  return (
+                    <tr key={index}>
+                      <td>{question.text}</td>
+                      <td>
+                        <input
+                          type="text"
+                          value={
+                            formData[index]?.comment ||
+                            declinedQuestion?.comment ||
+                            ""
+                          }
+                          onChange={(e) =>
+                            handleInputChange(e, index, question?._id)
+                          }
+                          required
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="file"
+                          accept=".pdf, .doc , .docx , .txt,.png,.jpeg , .jpg"
+                          onChange={(e) =>
+                            handleFileUpload(e, index, question?._id)
+                          }
+                          onDone
+                          className="border-none text-sm text-grey-500
+              file:mr-5 file:py-2 file:px-6
+              file:rounded-full file:border-0
+              file:text-sm file:font-medium
+              file:bg-blue-50 file:text-blue-700
+              hover:file:cursor-pointer hover:file:bg-amber-50
+              hover:file:text-amber-700"
+                        />
+                      </td>
+                      <td>
+                        {declinedQuestion &&
+                          declinedQuestion.EvidenceBinary && (
+                            <button
+                              onClick={() => {
+                                const semicolonIndex = declinedQuestion?.EvidenceBinary.indexOf(
+                                  ";"
+                                );
+                                const semicolonIndex1 = declinedQuestion?.EvidenceBinary.indexOf(
+                                  ","
+                                );
+                                const result = declinedQuestion?.EvidenceBinary.slice(
+                                  5,
+                                  semicolonIndex
+                                );
+                                showDocument(
+                                  declinedQuestion?.EvidenceBinary.slice(
+                                    semicolonIndex1 + 1,
+                                    declinedQuestion?.EvidenceBinary?.length
+                                  ),
+                                  result
+                                );
+                              }}
+                            >
+                              {declinedQuestion?.status === "DECLINED"
+                                ? "View Previously Uploaded Document"
+                                : "View"}
+                            </button>
+                          )}
+                      </td>
+                      <td>{declinedQuestion?.status ?? "Not Uploaded"}</td>
+                    </tr>
+                  );
+                }
+
+                return null;
+              })}
             </tbody>
           </table>
 

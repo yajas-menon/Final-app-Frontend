@@ -10,11 +10,11 @@ module.exports = {
         nunito: ["Nunito", "sans-serif"],
         lato:["Lato","sans-serif"],
       },
-    },
   },
   variant:{
     extend:{},
   },
   plugins: [],
+}
 }
 
