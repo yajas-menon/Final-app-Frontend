@@ -1,9 +1,20 @@
-import React from 'react';
+import React , {useState} from 'react';
 import { button, useNavigate } from 'react-router-dom';
+import Loader from '../components/Loader';
 import Navbar from '../components/Navbar';
+import { useEffect } from 'react';
 
 
 const HomePage = () => {
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 1500);
+    }, []);
+
     const navigate = useNavigate();
   const navigateToLoginPage = () => {
     // 👇️ navigate to /contacts
@@ -12,7 +23,11 @@ const HomePage = () => {
   return (
     <div>
         <Navbar/>
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+        {loading ? (
+        <Loader size={30} loading={loading} />
+      ) : (
+        <div>
+    <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-6xl font-bold mb-8 text-gray-800">Risk Compliance</h1>
       <p className="text-xl text-gray-700 mx-10">
         <span>Risk compliance refers to the process of ensuring that an organization's activities are carried out in compliance with applicable laws, regulations, and standards. </span></p>
@@ -31,6 +46,9 @@ const HomePage = () => {
       </div>
     </div>
     </div>
+    
+      )}
+      </div>
   );
 };
 

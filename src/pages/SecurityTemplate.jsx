@@ -50,7 +50,7 @@ export default function Template() {
         <main className=" mx-10 my-10">
           <a
             className="text-blue-600 hover:underline flex items-center space-x-1"
-            href="#"
+            href=""
           >
             <ChevronLeftIcon className="w-5 h-5" />
             <button onClick={navigateBack} type="button" className="text-black">
@@ -286,21 +286,4 @@ function PersonStandingIcon(props) {
   );
 }
 
-function ChevronUpIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m18 15-6-6-6 6" />
-    </svg>
-  );
-}
+

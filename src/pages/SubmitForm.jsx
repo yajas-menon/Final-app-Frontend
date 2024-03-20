@@ -307,7 +307,7 @@ const SubmitForm = () => {
         <Loader />
       ) : (
         <div className="container mt-4">
-          <p className="text-gray-600 mb-4 font-bold mt-10 mx-10">
+          <p className="text-gray-600 mb-4 font-bold mt- mx-10">
             Please fill the answers for each of the questions and upload the
             documents if required
           </p>
@@ -495,7 +495,7 @@ const SubmitForm = () => {
                       <td>
                         {declinedQuestion &&
                           declinedQuestion.EvidenceBinary && (
-                            <button
+                            <button className="text-blue-500 hover:text-blue-950 "
                               onClick={() => {
                                 const semicolonIndex = declinedQuestion?.EvidenceBinary.indexOf(
                                   ";"

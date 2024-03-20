@@ -83,9 +83,9 @@ const VendorList = () => {
             <div class=" mx-auto px-4">
               <a
                 className="text-blue-600 hover:underline flex items-center space-x-1"
-                href="#"
+                href="/dashboard"
               >
-                <ChevronLeftIcon className="w-5 h-5" />
+                <ChevronLeftIcon className="w-5 h-5 ml-10" />
                 <button
                   onClick={navigateBack}
                   type="button"

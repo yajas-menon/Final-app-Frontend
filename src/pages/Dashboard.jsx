@@ -7,8 +7,6 @@ import Chat from "../components/ChatBot";
 import BarGraph from "../components/BarGraphs";
 import LineC from "../components/LineC";
 
-
-
 export default function Component() {
   const [data, setData] = useState([]);
   const [vendors, setVendors] = useState([]);
@@ -16,8 +14,8 @@ export default function Component() {
 
   const navigate = useNavigate();
 
-  const navigateToContacts = () => {
-    // 👇️ navigate to /contacts
+  const navigateToVendorList = () => {
+    // 👇️ navigate to /VendorList
     navigate("/VendorList");
   };
 
@@ -67,23 +65,19 @@ export default function Component() {
         <Loader size={30} loading={loading} />
       ) : (
         <div>
-          
-            <div className="mt-5 mr-12 text-right ">
+          <div className="mt-5 mr-12 text-right ">
             <button
-            type="button"
-            onClick={navigateToContacts}
-            class="  h-10  rounded-full text-white bg-slate-600 hover:bg-black focus:ring-4 focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-black dark:hover:bg-black focus:outline-none dark:focus:ring-black"
+              type="button"
+              onClick={navigateToVendorList}
+              class="  h-10  rounded-full text-white bg-slate-600 hover:bg-black focus:ring-4 focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-black dark:hover:bg-black focus:outline-none dark:focus:ring-black"
             >
-           Add Request
-          </button>
+              Add Request
+            </button>
           </div>
           <div className="flex flex-col min-h-screen mx-10 my-5">
-          
             <main className="flex-1 p-4 flex flex-col gap-4">
-            
               <div className="grid gap-4 md:grid-cols-2">
-              
-              <div className="bg-white rounded-lg shadow-md p-4 ">
+                <div className="bg-white rounded-lg shadow-md p-4 ">
                   <div className="flex flex-col md:flex-row  gap-4">
                     <div className="grid gap-1.5">
                       <h2 className="text-xl font-bold font-nunito italic ">
@@ -98,8 +92,8 @@ export default function Component() {
                     42
                     <span className="lowercase">%</span>
                   </div>
-               </div>
-               <div className="bg-white rounded-lg shadow-md p-4">
+                </div>
+                <div className="bg-white rounded-lg shadow-md p-4">
                   <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
                     <div className="grid gap-1.5">
                       <h2 className="text-xl font-bold font-nunito italic ">
@@ -117,19 +111,22 @@ export default function Component() {
                 </div>
               </div>
               <div className="bg-white rounded-lg shadow-md p-4">
-                <h2 className="text-lg font-semibold font-lato">Responses Over Time</h2>
+                <h2 className="text-lg font-semibold font-lato">
+                  Responses Over Time
+                </h2>
                 <p className="text-sm font-nunito">
                   Number of response given by vendors over the past 6 months
                 </p>
                 <BarGraph />
-             </div>
+              </div>
               <div className="bg-white rounded-lg shadow-md p-4">
-                <h2 className="text-lg font-semibold font-lato">Risk Distribution</h2>
+                <h2 className="text-lg font-semibold font-lato">
+                  Risk Distribution
+                </h2>
                 <p className="text-sm font-nunito">
                   Distribution of vendors by risk category
                 </p>
                 <LineC />
-                
               </div>
               <div className="bg-white rounded-lg shadow-md p-4">
                 <h2 className="text-lg font-semibold font-lato">Vendor List</h2>
@@ -151,7 +148,7 @@ export default function Component() {
                             name="q"
                             className="block appearance-none w-full bg-gray-200 border border-gray-200 text-base leading-normal pl-10 pr-3 py-2 rounded-xl relative mb-4 mt-1 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:z-10"
                             placeholder="Search"
-                            />
+                          />
                         </div>
                       </div>
                       <table className="min-w-full divide-y divide-gray-200">
@@ -166,13 +163,13 @@ export default function Component() {
                             <th
                               scope="col"
                               className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider"
-                              >
+                            >
                               Raised For
                             </th>
                             <th
                               scope="col"
                               className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider"
-                              >
+                            >
                               Compliance Request Status
                             </th>
                           </tr>
@@ -224,36 +221,14 @@ export default function Component() {
                     </div>
                   </div>
                 </div>
-             </div>
+              </div>
             </main>
             <div>
               <Chat />
             </div>
           </div>
         </div>
-      
       )}
     </div>
   );
 }
-
-function ChevronRightIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m9 18 6-6-6-6" />
-    </svg>
-  );
-}
-
-
