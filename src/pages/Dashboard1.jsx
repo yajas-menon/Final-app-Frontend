@@ -43,12 +43,12 @@ export default function Component() {
       headers: {
         "Content-Type": "application/json",
       },
-      url: `http://localhost:8000/api/auth/dashboardApi}`,
+      url: `http://localhost:8000/api/auth/dashboardApi`,
     };
 
     await axios(config1)
       .then((res) => {
-        console.log(res);
+        console.log(res.data.data);
         setDashboard(res.data.data);
       })
       .catch((err) => {
@@ -89,7 +89,7 @@ export default function Component() {
                 </button>
               </div>
               <div>
-                42
+                {dashboard?.risk_percent}
                 <span className="lowercase">%</span>
               </div>
             </Card>
@@ -111,7 +111,7 @@ export default function Component() {
                 </button>
               </div>
               <div>
-                78
+                {dashboard?.approved_percent}
                 <span className="lowercase">%</span>
               </div>
             </Card>
@@ -123,7 +123,7 @@ export default function Component() {
             </p>
             <BarGraph
               months={dashboard?.months}
-              monthsData={dashboard?.monthsData}
+              monthsData={dashboard?.monthCount}
             />
           </Card>
           <Card>

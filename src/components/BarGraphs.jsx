@@ -51,10 +51,22 @@ const options = {
   maintainAspectRatio: false,
 };
 
-function LineGraph({ props }) {
+let monthsMapping = {
+  January: "Jan",
+  February: "Feb",
+  March: "Mar",
+  April: "Apr",
+};
+
+function LineGraph(props) {
   console.log(props);
-  // data.datasets[0].data = props?.monthsData;
-  // data.labels = props?.months
+  let months = [];
+  props?.months?.forEach((item) => {
+    months.push(monthsMapping[item]);
+  });
+  console.log(months);
+  data.datasets[0].data = props?.monthsData;
+  data.labels = months;
   return (
     <div className="w-full h-64 bg-white p-4 rounded shadow">
       <Bar data={data} options={options} />

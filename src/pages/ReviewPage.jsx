@@ -97,7 +97,6 @@ function ReviewPage() {
   };
 
   const handleEdit = async (user_id, user_question_id, template_id, status) => {
-    let obj = {};
     const config = {
       method: "post",
       headers: {

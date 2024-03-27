@@ -12,6 +12,8 @@ export default function Component() {
   const [vendors, setVendors] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [dashboard, setDashboard] = useState([]);
+
   const navigate = useNavigate();
 
   const navigateToVendorList = () => {
@@ -41,6 +43,23 @@ export default function Component() {
       .then((res) => {
         console.log(res.data.data);
         setData(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    const config1 = {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      url: `http://localhost:8000/api/auth/dashboardApi`,
+    };
+
+    await axios(config1)
+      .then((res) => {
+        console.log(res.data.data);
+        setDashboard(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -89,7 +108,7 @@ export default function Component() {
                     </div>
                   </div>
                   <div className="font-bold font-mono">
-                    42
+                    {dashboard?.risk_percent}
                     <span className="lowercase">%</span>
                   </div>
                 </div>
@@ -105,7 +124,7 @@ export default function Component() {
                     </div>
                   </div>
                   <div className="font-bold font-mono">
-                    78
+                    {dashboard?.approved_percent}
                     <span className="lowercase">%</span>
                   </div>
                 </div>
@@ -117,7 +136,10 @@ export default function Component() {
                 <p className="text-sm font-nunito">
                   Number of response given by vendors over the past 6 months
                 </p>
-                <BarGraph />
+                <BarGraph
+                  months={dashboard?.months}
+                  monthsData={dashboard?.monthCount}
+                />
               </div>
               <div className="bg-white rounded-lg shadow-md p-4">
                 <h2 className="text-lg font-semibold font-lato">
