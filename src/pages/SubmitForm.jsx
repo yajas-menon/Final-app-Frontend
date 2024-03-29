@@ -293,6 +293,7 @@ const SubmitForm = () => {
     );
     window.open(URL.createObjectURL(blob), "_blank");
   }
+
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -493,34 +494,34 @@ const SubmitForm = () => {
                         />
                       </td>
                       <td>
-                        {declinedQuestion &&
-                          declinedQuestion.EvidenceBinary && (
-                            <button className="text-blue-500 hover:text-blue-950 "
-                              onClick={() => {
-                                const semicolonIndex = declinedQuestion?.EvidenceBinary.indexOf(
-                                  ";"
-                                );
-                                const semicolonIndex1 = declinedQuestion?.EvidenceBinary.indexOf(
-                                  ","
-                                );
-                                const result = declinedQuestion?.EvidenceBinary.slice(
-                                  5,
-                                  semicolonIndex
-                                );
-                                showDocument(
-                                  declinedQuestion?.EvidenceBinary.slice(
-                                    semicolonIndex1 + 1,
-                                    declinedQuestion?.EvidenceBinary?.length
-                                  ),
-                                  result
-                                );
-                              }}
-                            >
-                              {declinedQuestion?.status === "DECLINED"
-                                ? "View Previously Uploaded Document"
-                                : "View"}
-                            </button>
-                          )}
+                        {declinedQuestion && declinedQuestion.EvidenceBinary && (
+                          <button
+                            className="text-blue-500 hover:text-blue-950 "
+                            onClick={() => {
+                              const semicolonIndex = declinedQuestion?.EvidenceBinary.indexOf(
+                                ";"
+                              );
+                              const semicolonIndex1 = declinedQuestion?.EvidenceBinary.indexOf(
+                                ","
+                              );
+                              const result = declinedQuestion?.EvidenceBinary.slice(
+                                5,
+                                semicolonIndex
+                              );
+                              showDocument(
+                                declinedQuestion?.EvidenceBinary.slice(
+                                  semicolonIndex1 + 1,
+                                  declinedQuestion?.EvidenceBinary?.length
+                                ),
+                                result
+                              );
+                            }}
+                          >
+                            {declinedQuestion?.status === "DECLINED"
+                              ? "View Previously Uploaded Document"
+                              : "View"}
+                          </button>
+                        )}
                       </td>
                       <td>{declinedQuestion?.status ?? "Not Uploaded"}</td>
                     </tr>
