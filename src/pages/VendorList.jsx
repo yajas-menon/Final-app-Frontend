@@ -30,11 +30,17 @@ const VendorList = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const navigateBack = () => {
     navigate("/dashboard");
   };
 
+  const filteredData = data.filter((item) =>
+    item.vendorName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+ 
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -97,16 +103,20 @@ const VendorList = () => {
               <hr className="divide-y divide-solid divide-inherit mt-4 mx-10 " />
               <h1 class="text-3xl font-semibold mb-4 mx-10 mt-5">Vendors</h1>
               <div class="flex justify-between items-center">
-                <div className="flex  max-w-lg ml-10">
+                <div className="relative w-full max-w-xs mx-10 mt-3">
                   <input
                     type="text"
                     placeholder="Search Vendor..."
-                    className="border max-w-md border-gray-300 rounded p-2 focus:outline-none flex-grow"
+                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-base leading-normal pl-10 pr-3 py-2 rounded-xl relative mb-4 mt-1 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:z-10"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                   />
-                  <select
+                  {/* <select
                     name=""
                     id=""
                     className="border border-gray-300 max-w-lg rounded p-2 focus:outline-none ml-4 "
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value)}
                   >
                     <option className="" value="">
                       Sort By
@@ -117,7 +127,7 @@ const VendorList = () => {
                     <option className="" value="desc">
                       Descending
                     </option>
-                  </select>
+                  </select> */}
                 </div>
                 <div class="flex space-x-2 mr-10">
                   <button class="p-2 rounded-md hover:bg-gray-200 active:bg-gray-300">
@@ -137,13 +147,14 @@ const VendorList = () => {
           <div className="flex flex-row md:flex-row md:space-x-6 space-y-6 md:space-y-0 py-6">
             <div className="flex flex-wrap ">
               {data &&
-                data?.map((item, key) => {
+                filteredData.map((item, key) => {
                   return (
                     <div
                       className="p-4 cursor-pointer"
                       onClick={() => {
                         next(item?._id);
                       }}
+                      
                     >
                       <div className="border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                         <img
@@ -175,6 +186,7 @@ const VendorList = () => {
             </div>
           </div>
         </div>
+        
       </div>
     </>
   );

@@ -11,6 +11,7 @@ export default function Component() {
   const [data, setData] = useState([]);
   const [vendors, setVendors] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [dashboard, setDashboard] = useState([]);
 
@@ -20,6 +21,12 @@ export default function Component() {
     // 👇️ navigate to /VendorList
     navigate("/VendorList");
   };
+  const filteredData = data.filter((item) =>
+    vendors
+      .find((s) => s._id == item.vendor_id)
+      ?.vendorName.toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
 
   const getData = async () => {
     const result = await axios
@@ -141,7 +148,7 @@ export default function Component() {
                   monthsData={dashboard?.monthCount}
                 />
               </div>
-              <div className="bg-white rounded-lg shadow-md p-4">
+              {/* <div className="bg-white rounded-lg shadow-md p-4">
                 <h2 className="text-lg font-semibold font-lato">
                   Risk Distribution
                 </h2>
@@ -149,7 +156,7 @@ export default function Component() {
                   Distribution of vendors by risk category
                 </p>
                 <LineC />
-              </div>
+              </div> */}
               <div className="bg-white rounded-lg shadow-md p-4">
                 <h2 className="text-lg font-semibold font-lato">Vendor List</h2>
                 <p className="text-sm font-nunito">
@@ -170,6 +177,8 @@ export default function Component() {
                             name="q"
                             className="block appearance-none w-full bg-gray-200 border border-gray-200 text-base leading-normal pl-10 pr-3 py-2 rounded-xl relative mb-4 mt-1 focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:z-10"
                             placeholder="Search"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                           />
                         </div>
                       </div>
@@ -198,7 +207,7 @@ export default function Component() {
                         </thead>
                         <tbody className="divide-y divide-gray-200">
                           {data &&
-                            data?.map((item, key) => {
+                            filteredData.map((item, key) => {
                               return (
                                 <tr>
                                   <td className="px-6 py-4 whitespace-nowrap">
@@ -235,7 +244,7 @@ export default function Component() {
                       >
                         <p className="text-sm text-black">
                           Showing{" "}
-                          <span className="font-medium">{data.length}</span> of{" "}
+                          <span className="font-medium">{filteredData.length}</span> of{" "}
                           <span className="font-medium">{data?.length}</span>{" "}
                           results.
                         </p>

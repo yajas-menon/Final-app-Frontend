@@ -29,9 +29,9 @@ const HomePage = () => {
         <div>
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-6xl font-bold mb-8 text-gray-800">Risk Compliance</h1>
-      <p className="text-xl text-gray-700 mx-10">
+      <p className="text-xl italic text-gray-700 mx-10">
         <span>Risk compliance refers to the process of ensuring that an organization's activities are carried out in compliance with applicable laws, regulations, and standards. </span></p>
-      <p className='text-xl mb-8 text-gray-700 mx-12'>  <span>This includes identifying and assessing risks, implementing controls to mitigate those risks, and monitoring and reporting on compliance.</span></p>
+      <p className='text-xl italic  mb-8 text-gray-700 mx-12'>  <span>This includes identifying and assessing risks, implementing controls to mitigate those risks, and monitoring and reporting on compliance.</span></p>
       
       <p className="text-xl mb-8  text-gray-700 mx-16">
         <span>GenAI is a powerful and easy-to-use platform that utilizes the latest in generative AI technology to help you stay compliant and make informed decisions.</span>
